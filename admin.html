@@ -834,7 +834,7 @@ function sha256Hex(msg) {
         return false;
     }
 
-    if (sessionStorage.getItem(SESSION_KEY) === '1') {
+    if (sessionStorage.getItem(SESSION_KEY) === '1' && getToken()) {
         unlock();
     } else {
         applyLockout();
