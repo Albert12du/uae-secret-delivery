@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>站点后台管理 - 商品与设置</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@400;500;600&display=swap">
+    <script src="data.js"></script>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; }
+    body { background: #F7F4EF; color: #1A1816; font-size: 15px; padding-bottom: 60px; }
+
+    .topbar {
+        background: #1A1816; color: #F7F4EF;
+        padding: 16px 28px; display: flex; align-items: center; justify-content: space-between;
+        flex-wrap: wrap; gap: 12px; position: sticky; top: 0; z-index: 100;
+    }
+    .topbar h1 { font-family: 'Playfair Display', serif; font-weight: 500; font-size: 1.25rem; }
+    .topbar h1 small { display: block; font-family: 'Inter', sans-serif; font-size: 0.62rem; letter-spacing: 2.4px; text-transform: uppercase; color: #A8895E; margin-top: 3px; }
+    .topbar-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn {
+        border: none; border-radius: 4px; padding: 10px 16px; cursor: pointer;
+        font-size: 0.8rem; font-weight: 500; letter-spacing: 0.4px;
+        display: inline-flex; align-items: center; gap: 7px; transition: all .2s;
+        text-decoration: none;
+    }
+    .btn-light { background: #F7F4EF; color: #1A1816; }
+    .btn-light:hover { background: #fff; }
+    .btn-dark { background: #1A1816; color: #F7F4EF; }
+    .btn-dark:hover { background: #33302B; }
+    .btn-green { background: #1FAA59; color: #fff; }
+    .btn-green:hover { background: #188C49; }
+    .btn-outline { background: transparent; color: #F7F4EF; border: 1px solid rgba(247,244,239,0.4); }
+    .btn-outline:hover { border-color: #F7F4EF; background: rgba(255,255,255,0.08); }
+    .btn-danger { background: transparent; color: #C0392B; border: 1px solid #E4C4C0; }
+    .btn-danger:hover { background: #FBF0EE; }
+    .btn-sm { padding: 7px 12px; font-size: 0.74rem; }
+
+    .wrap { max-width: 1240px; margin: 0 auto; padding: 26px 20px; }
+
+    .card {
+        background: #fff; border: 1px solid #EAE3D9; border-radius: 8px;
+        box-shadow: 0 1px 2px rgba(26,24,22,0.03); margin-bottom: 26px; overflow: hidden;
+    }
+    .card-head {
+        padding: 18px 22px; border-bottom: 1px solid #EAE3D9;
+        display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .card-head h2 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 600; }
+    .card-head .hint { font-size: 0.72rem; color: #A69C91; margin-top: 3px; }
+    .card-body { padding: 22px; }
+
+    .field-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .field label { display: block; font-size: 0.72rem; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: #6B635B; margin-bottom: 6px; }
+    .field input, .field textarea, .field select {
+        width: 100%; padding: 11px 13px; border: 1px solid #DCD4C9; border-radius: 4px;
+        background: #FDFCFA; font-size: 0.88rem; color: #1A1816; transition: border-color .2s;
+    }
+    .field textarea { resize: vertical; min-height: 74px; }
+    .field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: #1A1816; }
+    .field .tip { font-size: 0.7rem; color: #A69C91; margin-top: 5px; line-height: 1.5; }
+    .field-wide { grid-column: 1 / -1; }
+
+    .toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .search-box { position: relative; flex: 1; min-width: 220px; max-width: 380px; }
+    .search-box input { width: 100%; padding: 11px 14px 11px 38px; border: 1px solid #DCD4C9; border-radius: 4px; background: #FDFCFA; font-size: 0.85rem; }
+    .search-box input:focus { outline: none; border-color: #1A1816; }
+    .search-box i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #A69C91; font-size: 0.8rem; }
+
+    table { width: 100%; border-collapse: collapse; }
+    th {
+        text-align: left; font-size: 0.68rem; letter-spacing: 1.5px; text-transform: uppercase;
+        color: #A69C91; font-weight: 600; padding: 12px 14px; border-bottom: 1px solid #EAE3D9;
+    }
+    td { padding: 11px 14px; border-bottom: 1px solid #F2EDE6; vertical-align: middle; font-size: 0.85rem; }
+    tr:hover td { background: #FBFAF7; }
+    .thumb { width: 54px; height: 54px; border-radius: 4px; object-fit: cover; border: 1px solid #EAE3D9; background: #F2EDE6; display: block; }
+    .p-title { font-weight: 500; max-width: 260px; }
+    .p-sku { font-size: 0.72rem; color: #A69C91; }
+    .p-price { font-family: 'Playfair Display', serif; font-weight: 600; white-space: nowrap; }
+    .p-price::before { content: "AED "; font-family: 'Inter', sans-serif; font-size: 0.6rem; color: #A69C91; }
+    .chip { display: inline-block; padding: 3px 9px; border-radius: 2px; font-size: 0.6rem; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; margin: 1px 3px 1px 0; border: 1px solid #D8CFC4; color: #6B635B; }
+    .chip.on { background: #1A1816; color: #F7F4EF; border-color: #1A1816; }
+    .tag-badge { display: inline-block; padding: 3px 8px; border-radius: 2px; font-size: 0.58rem; font-weight: 600; letter-spacing: 1.5px; background: #1A1816; color: #F7F4EF; text-transform: uppercase; }
+    .row-actions { white-space: nowrap; display: flex; gap: 6px; }
+    .icon-btn {
+        width: 34px; height: 34px; border-radius: 4px; border: 1px solid #D8CFC4; background: #fff;
+        cursor: pointer; color: #6B635B; font-size: 0.8rem; transition: all .2s;
+        display: inline-flex; align-items: center; justify-content: center;
+    }
+    .icon-btn:hover { background: #1A1816; color: #F7F4EF; border-color: #1A1816; }
+    .icon-btn.danger:hover { background: #C0392B; border-color: #C0392B; }
+
+    .modal-overlay {
+        position: fixed; inset: 0; background: rgba(26,24,22,0.5); z-index: 2000;
+        display: none; align-items: flex-start; justify-content: center; padding: 40px 16px; overflow-y: auto;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+        background: #fff; border-radius: 10px; width: 100%; max-width: 680px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.2); animation: pop .25s ease-out;
+    }
+    @keyframes pop { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .modal-head { padding: 20px 24px; border-bottom: 1px solid #EAE3D9; display: flex; justify-content: space-between; align-items: center; }
+    .modal-head h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; }
+    .modal-close { width: 36px; height: 36px; border-radius: 50%; border: none; background: #F2EDE6; color: #6B635B; font-size: 17px; cursor: pointer; }
+    .modal-close:hover { background: #E4DDD3; color: #1A1816; }
+    .modal-body { padding: 24px; }
+    .modal-foot { padding: 16px 24px 22px; border-top: 1px solid #EAE3D9; display: flex; justify-content: flex-end; gap: 10px; }
+
+    .img-preview { width: 130px; height: 130px; border-radius: 6px; border: 1px solid #EAE3D9; background: #F2EDE6; object-fit: cover; display: block; }
+    .img-controls { display: flex; flex-direction: column; gap: 8px; }
+    .upload-label {
+        display: inline-flex; align-items: center; gap: 7px; padding: 9px 14px; border: 1px dashed #C9BFB4;
+        border-radius: 4px; cursor: pointer; font-size: 0.78rem; color: #6B635B; transition: all .2s; background: #FDFCFA;
+    }
+    .upload-label:hover { border-color: #1A1816; color: #1A1816; }
+    .img-row { display: flex; gap: 18px; align-items: flex-start; flex-wrap: wrap; }
+
+    .toast {
+        position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%) translateY(80px);
+        background: #1A1816; color: #F7F4EF; padding: 13px 22px; border-radius: 6px;
+        font-size: 0.84rem; z-index: 3000; transition: transform .3s cubic-bezier(.25,.8,.25,1);
+        display: flex; align-items: center; gap: 9px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast i { color: #1FAA59; }
+
+    .stats { display: flex; gap: 14px; flex-wrap: wrap; }
+    .stat { background: #F2EDE6; border-radius: 6px; padding: 12px 18px; min-width: 120px; }
+    .stat b { font-family: 'Playfair Display', serif; font-size: 1.3rem; display: block; }
+    .stat span { font-size: 0.66rem; letter-spacing: 1.4px; text-transform: uppercase; color: #6B635B; }
+
+    .empty { text-align: center; padding: 50px 20px; color: #A69C91; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #1FAA59; display: inline-block; margin-right: 6px; }
+    .status-dot.off { background: #C9BFB4; }
+
+    @media (max-width: 720px) {
+        .hide-sm { display: none; }
+        td, th { padding: 9px 8px; }
+    }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+    <h1>站点后台管理<small>Product &amp; Settings Console</small></h1>
+    <div class="topbar-actions">
+        <a class="btn btn-outline btn-sm" href="index.html" target="_blank"><i class="fas fa-external-link-alt"></i> 查看网站</a>
+        <button class="btn btn-light btn-sm" id="btnExport"><i class="fas fa-download"></i> 导出 data.js</button>
+        <label class="btn btn-outline btn-sm" style="margin:0"><i class="fas fa-upload"></i> 导入数据
+            <input type="file" id="fileImport" accept=".js,.json" style="display:none">
+        </label>
+        <button class="btn btn-outline btn-sm" id="btnReset"><i class="fas fa-rotate-left"></i> 恢复默认数据</button>
+    </div>
+</div>
+
+<div class="wrap">
+
+    <!-- ===== 站点设置 ===== -->
+    <div class="card">
+        <div class="card-head">
+            <div>
+                <h2>站点设置</h2>
+                <div class="hint">WhatsApp 收单号码与下单消息文案（保存后前台立即生效）</div>
+            </div>
+            <div class="stats">
+                <div class="stat"><b id="statCount">0</b><span>商品总数</span></div>
+                <div class="stat"><b id="statModified">否</b><span>有本地修改</span></div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="field-grid">
+                <div class="field">
+                    <label>WhatsApp 收单号码（含国家码，仅数字）</label>
+                    <input type="text" id="setWhatsapp" placeholder="例如 84766707634 或 8613800138000">
+                    <div class="tip">客户点击商品"WhatsApp Order"按钮后，跳转到该号码的聊天窗口。</div>
+                </div>
+                <div class="field">
+                    <label>落地页链接（出现在下单消息中）</label>
+                    <input type="text" id="setLink" placeholder="https://你的域名/">
+                    <div class="tip">用于下单消息里的 "Here is your website" 链接。</div>
+                </div>
+                <div class="field field-wide">
+                    <label>单商品下单消息模板</label>
+                    <textarea id="setOrderMsg"></textarea>
+                    <div class="tip">可用变量：{name} = 商品名称，{price} = 价格，{link} = 落地页链接。点击单个商品下单按钮时发送。</div>
+                </div>
+                <div class="field field-wide">
+                    <label>购物车结算消息结尾</label>
+                    <textarea id="setCartFooter"></textarea>
+                    <div class="tip">可用变量：{link} = 落地页链接。购物车批量下单时附加在订单清单末尾。</div>
+                </div>
+            </div>
+            <div style="margin-top:18px; display:flex; gap:10px; flex-wrap:wrap;">
+                <button class="btn btn-green" id="btnSaveSettings"><i class="fas fa-check"></i> 保存设置</button>
+                <button class="btn btn-danger" id="btnTestWa" style="border-color:#D8CFC4;"><i class="fab fa-whatsapp"></i> 测试跳转</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 商品管理 ===== -->
+    <div class="card">
+        <div class="card-head">
+            <div>
+                <h2>商品管理</h2>
+                <div class="hint">修改商品图片、名称、价格、尺寸描述、分类与角标</div>
+            </div>
+            <div class="toolbar">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="adminSearch" placeholder="搜索商品名称 / SKU...">
+                </div>
+                <button class="btn btn-dark btn-sm" id="btnAdd"><i class="fas fa-plus"></i> 添加商品</button>
+            </div>
+        </div>
+        <div style="overflow-x:auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width:70px">图片</th>
+                        <th>商品</th>
+                        <th class="hide-sm">价格</th>
+                        <th class="hide-sm">分类</th>
+                        <th>角标</th>
+                        <th style="width:110px">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="productRows"></tbody>
+            </table>
+            <div class="empty" id="emptyHint" style="display:none"><i class="fas fa-box-open" style="font-size:2.2rem; display:block; margin-bottom:10px; color:#DCD4C9;"></i>没有匹配的商品</div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== 商品编辑弹窗 ===== -->
+<div class="modal-overlay" id="editOverlay">
+    <div class="modal">
+        <div class="modal-head">
+            <h3 id="modalTitle">编辑商品</h3>
+            <button class="modal-close" id="modalClose">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="img-row" style="margin-bottom:18px;">
+                <img class="img-preview" id="previewImg" alt="预览">
+                <div class="img-controls" style="flex:1; min-width:240px;">
+                    <div class="field">
+                        <label>商品图片链接</label>
+                        <input type="text" id="fImage" placeholder="https://... 图片URL">
+                        <div class="tip">填写图片 URL，或点击下方"上传本地图片"（注意：本地上传会转成 base64 存入数据，单个文件建议小于 300KB）。</div>
+                    </div>
+                    <div>
+                        <label class="upload-label"><i class="fas fa-image"></i> 上传本地图片
+                            <input type="file" id="fileImage" accept="image/*" style="display:none">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="field-grid">
+                <div class="field">
+                    <label>商品名称</label>
+                    <input type="text" id="fTitle">
+                </div>
+                <div class="field">
+                    <label>价格（AED，纯数字）</label>
+                    <input type="text" id="fPrice" placeholder="200.00">
+                </div>
+                <div class="field field-wide">
+                    <label>描述 / 尺寸</label>
+                    <input type="text" id="fDesc" placeholder='例如 Size: 22cm × 5.2cm (8.66" × 2.1")'>
+                </div>
+                <div class="field">
+                    <label>SKU / 内部编号（显示在订单消息中）</label>
+                    <input type="text" id="fSku" placeholder="KY27（0 shipping fee)">
+                </div>
+                <div class="field">
+                    <label>角标（左上角标签）</label>
+                    <select id="fTag">
+                        <option value="">无</option>
+                        <option value="SALE">SALE</option>
+                        <option value="NEW">NEW</option>
+                        <option value="BEST">BEST</option>
+                    </select>
+                </div>
+                <div class="field field-wide">
+                    <label>分类（决定前台筛选按钮显示）</label>
+                    <div id="catChecks" style="display:flex; gap:8px; flex-wrap:wrap; padding-top:4px;"></div>
+                    <div class="tip">men = 出现在 Men's；women = 出现在 Women's；new / sale / best 分别对应 New Arrivals / Sale / Best Sellers。</div>
+                </div>
+                <div class="field field-wide">
+                    <label>视频链接（点击商品图播放，可留空）</label>
+                    <input type="text" id="fVideo" placeholder="https://....mp4">
+                </div>
+            </div>
+        </div>
+        <div class="modal-foot">
+            <button class="btn btn-danger" id="btnDelete"><i class="fas fa-trash"></i> 删除商品</button>
+            <span style="flex:1"></span>
+            <button class="btn btn-dark" id="btnCancel">取消</button>
+            <button class="btn btn-green" id="btnSaveProduct"><i class="fas fa-check"></i> 保存商品</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastText">已保存</span></div>
+
+<script>
+var STORE_KEY = 'siteDataV1';
+var CATEGORIES = ['men', 'women', 'new', 'sale', 'best'];
+
+function defaultData() { return JSON.parse(JSON.stringify(window.SITE_DATA)); }
+function loadData() {
+    try {
+        var saved = JSON.parse(localStorage.getItem(STORE_KEY));
+        if (saved && saved.products && saved.products.length) return saved;
+    } catch (e) {}
+    return defaultData();
+}
+function saveData(data) {
+    localStorage.setItem(STORE_KEY, JSON.stringify(data));
+    updateStats();
+}
+function hasLocalChanges() { return !!localStorage.getItem(STORE_KEY); }
+
+var state = loadData();
+var editingIndex = -1;
+
+/* ---------- toast ---------- */
+var toastTimer = null;
+function showToast(msg, ok) {
+    var t = document.getElementById('toast');
+    document.getElementById('toastText').textContent = msg;
+    t.querySelector('i').className = ok === false ? 'fas fa-exclamation-circle' : 'fas fa-check-circle';
+    t.querySelector('i').style.color = ok === false ? '#E67E22' : '#1FAA59';
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 2200);
+}
+
+/* ---------- 设置 ---------- */
+function fillSettings() {
+    var s = state.settings || {};
+    document.getElementById('setWhatsapp').value = s.whatsapp || '';
+    document.getElementById('setLink').value = s.websiteLink || '';
+    document.getElementById('setOrderMsg').value = s.orderMessage || '';
+    document.getElementById('setCartFooter').value = s.cartFooter || '';
+}
+document.getElementById('btnSaveSettings').addEventListener('click', function() {
+    var num = document.getElementById('setWhatsapp').value.replace(/[^0-9]/g, '');
+    if (!num) { showToast('请填写 WhatsApp 号码', false); return; }
+    state.settings = {
+        whatsapp: num,
+        websiteLink: document.getElementById('setLink').value.trim(),
+        orderMessage: document.getElementById('setOrderMsg').value,
+        cartFooter: document.getElementById('setCartFooter').value
+    };
+    saveData(state);
+    showToast('设置已保存，前台已生效');
+});
+document.getElementById('btnTestWa').addEventListener('click', function() {
+    var num = document.getElementById('setWhatsapp').value.replace(/[^0-9]/g, '');
+    if (!num) { showToast('请先填写号码', false); return; }
+    var msg = document.getElementById('setOrderMsg').value
+        .replace('{name}', '测试商品 Test Product').replace('{price}', '200.00')
+        .replace('{link}', document.getElementById('setLink').value.trim());
+    window.open('https://wa.me/' + num + '?text=' + encodeURIComponent(msg), '_blank');
+});
+
+/* ---------- 商品列表 ---------- */
+function catChips(cats) {
+    return (cats || '').split(/\s+/).filter(Boolean).map(function(c){
+        return '<span class="chip' + (CATEGORIES.indexOf(c) >= 0 ? '' : '') + '">' + esc(c) + '</span>';
+    }).join('');
+}
+function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+        return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+}
+function renderRows() {
+    var term = document.getElementById('adminSearch').value.trim().toLowerCase();
+    var tbody = document.getElementById('productRows');
+    var rows = '', shown = 0;
+    state.products.forEach(function(p, i) {
+        if (term && (p.title || '').toLowerCase().indexOf(term) < 0 && (p.sku || '').toLowerCase().indexOf(term) < 0) return;
+        shown++;
+        rows += '<tr>' +
+            '<td><img class="thumb" src="' + esc(p.image) + '" alt="" onerror="this.style.opacity=.2"></td>' +
+            '<td><div class="p-title">' + esc(p.title) + '</div><div class="p-sku">' + esc(p.sku) + ' · ID ' + esc(p.id) + '</div></td>' +
+            '<td class="p-price hide-sm">' + esc(p.price) + '</td>' +
+            '<td class="hide-sm">' + catChips(p.category) + '</td>' +
+            '<td>' + (p.tag ? '<span class="tag-badge">' + esc(p.tag) + '</span>' : '<span style="color:#C9BFB4">—</span>') + '</td>' +
+            '<td><div class="row-actions">' +
+                '<button class="icon-btn" title="编辑" onclick="openEdit(' + i + ')"><i class="fas fa-pen"></i></button>' +
+                '<button class="icon-btn" title="上移" onclick="moveProduct(' + i + ',-1)"><i class="fas fa-arrow-up"></i></button>' +
+                '<button class="icon-btn" title="下移" onclick="moveProduct(' + i + ',1)"><i class="fas fa-arrow-down"></i></button>' +
+            '</div></td>' +
+        '</tr>';
+    });
+    tbody.innerHTML = rows;
+    document.getElementById('emptyHint').style.display = shown ? 'none' : 'block';
+    updateStats();
+}
+function updateStats() {
+    document.getElementById('statCount').textContent = state.products.length;
+    document.getElementById('statModified').textContent = hasLocalChanges() ? '是' : '否';
+}
+document.getElementById('adminSearch').addEventListener('input', renderRows);
+
+function moveProduct(i, dir) {
+    var j = i + dir;
+    if (j < 0 || j >= state.products.length) return;
+    var arr = state.products;
+    var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+    saveData(state); renderRows();
+}
+
+/* ---------- 编辑弹窗 ---------- */
+function buildCatChecks(cats) {
+    var has = (cats || '').split(/\s+/);
+    var box = document.getElementById('catChecks');
+    box.innerHTML = '';
+    CATEGORIES.forEach(function(c) {
+        var chip = document.createElement('span');
+        chip.className = 'chip' + (has.indexOf(c) >= 0 ? ' on' : '');
+        chip.textContent = c;
+        chip.style.cursor = 'pointer';
+        chip.style.padding = '8px 16px';
+        chip.style.userSelect = 'none';
+        chip.addEventListener('click', function(){ chip.classList.toggle('on'); });
+        box.appendChild(chip);
+    });
+}
+function readCatChecks() {
+    var out = [];
+    document.querySelectorAll('#catChecks .chip.on').forEach(function(c){ out.push(c.textContent); });
+    return out.join(' ');
+}
+window.openEdit = function(i) {
+    editingIndex = i;
+    var p = state.products[i];
+    document.getElementById('modalTitle').textContent = '编辑商品 #' + (i + 1);
+    document.getElementById('fTitle').value = p.title || '';
+    document.getElementById('fPrice').value = p.price || '';
+    document.getElementById('fDesc').value = p.desc || '';
+    document.getElementById('fSku').value = p.sku || '';
+    document.getElementById('fImage').value = p.image || '';
+    document.getElementById('fVideo').value = p.video || '';
+    document.getElementById('fTag').value = p.tag || '';
+    buildCatChecks(p.category);
+    updatePreview();
+    document.getElementById('btnDelete').style.display = '';
+    document.getElementById('editOverlay').classList.add('active');
+};
+document.getElementById('btnAdd').addEventListener('click', function() {
+    editingIndex = -1;
+    document.getElementById('modalTitle').textContent = '添加商品';
+    ['fTitle','fPrice','fDesc','fSku','fImage','fVideo'].forEach(function(id){ document.getElementById(id).value = ''; });
+    document.getElementById('fPrice').value = '200.00';
+    document.getElementById('fTag').value = '';
+    buildCatChecks('men');
+    updatePreview();
+    document.getElementById('btnDelete').style.display = 'none';
+    document.getElementById('editOverlay').classList.add('active');
+});
+function closeEdit() { document.getElementById('editOverlay').classList.remove('active'); }
+document.getElementById('modalClose').addEventListener('click', closeEdit);
+document.getElementById('btnCancel').addEventListener('click', closeEdit);
+document.getElementById('editOverlay').addEventListener('click', function(e){ if (e.target === this) closeEdit(); });
+
+function updatePreview() {
+    var img = document.getElementById('previewImg');
+    var v = document.getElementById('fImage').value.trim();
+    img.src = v || 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="130" height="130"><rect width="130" height="130" fill="#F2EDE6"/><text x="65" y="70" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#C9BFB4">暂无图片</text></svg>');
+}
+document.getElementById('fImage').addEventListener('input', updatePreview);
+
+document.getElementById('fileImage').addEventListener('change', function() {
+    var f = this.files[0];
+    if (!f) return;
+    if (f.size > 400 * 1024) { showToast('图片超过 400KB，建议压缩后再上传', false); }
+    var reader = new FileReader();
+    reader.onload = function() {
+        document.getElementById('fImage').value = reader.result;
+        updatePreview();
+        showToast('图片已载入，记得点"保存商品"');
+    };
+    reader.readAsDataURL(f);
+    this.value = '';
+});
+
+document.getElementById('btnSaveProduct').addEventListener('click', function() {
+    var title = document.getElementById('fTitle').value.trim();
+    var price = document.getElementById('fPrice').value.trim();
+    if (!title) { showToast('请填写商品名称', false); return; }
+    if (!/^\d+(\.\d+)?$/.test(price)) { showToast('价格请填纯数字，例如 200.00', false); return; }
+    var p = {
+        id: editingIndex >= 0 ? String(state.products[editingIndex].id || '') : 'p_' + Date.now(),
+        sku: document.getElementById('fSku').value.trim() || title,
+        title: title,
+        price: price,
+        desc: document.getElementById('fDesc').value.trim(),
+        category: readCatChecks() || 'men',
+        tag: document.getElementById('fTag').value,
+        image: document.getElementById('fImage').value.trim(),
+        video: document.getElementById('fVideo').value.trim()
+    };
+    if (editingIndex >= 0) state.products[editingIndex] = p;
+    else state.products.push(p);
+    saveData(state); renderRows(); closeEdit();
+    showToast(editingIndex >= 0 ? '商品已更新' : '商品已添加');
+});
+
+document.getElementById('btnDelete').addEventListener('click', function() {
+    if (editingIndex < 0) return;
+    var p = state.products[editingIndex];
+    if (!confirm('确定删除商品「' + (p.title || '') + '」？此操作不可撤销。')) return;
+    state.products.splice(editingIndex, 1);
+    saveData(state); renderRows(); closeEdit();
+    showToast('商品已删除');
+});
+
+/* ---------- 导出 / 导入 / 重置 ---------- */
+document.getElementById('btnExport').addEventListener('click', function() {
+    var content = '// 站点数据：settings = 全局设置，products = 商品列表（由后台管理页 admin.html 生成/导出）\n'
+        + 'window.SITE_DATA = ' + JSON.stringify(state, null, 2) + ';\n';
+    var blob = new Blob([content], { type: 'application/javascript' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'data.js';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    showToast('已导出 data.js，用它覆盖服务器上的同名文件即可永久生效');
+});
+
+document.getElementById('fileImport').addEventListener('change', function() {
+    var f = this.files[0];
+    if (!f) return;
+    var reader = new FileReader();
+    reader.onload = function() {
+        try {
+            var txt = String(reader.result);
+            var m = txt.match(/window\.SITE_DATA\s*=\s*([\s\S]*?);\s*$/);
+            var obj = JSON.parse(m ? m[1] : txt);
+            if (!obj.products || !obj.products.length) throw new Error('no products');
+            state = obj;
+            saveData(state); fillSettings(); renderRows();
+            showToast('导入成功，共 ' + obj.products.length + ' 个商品');
+        } catch (e) {
+            showToast('文件格式不正确，导入失败', false);
+        }
+    };
+    reader.readAsText(f);
+    this.value = '';
+});
+
+document.getElementById('btnReset').addEventListener('click', function() {
+    if (!confirm('恢复为默认数据（data.js 中的原始内容）？\n当前本地修改将全部丢失。')) return;
+    localStorage.removeItem(STORE_KEY);
+    state = defaultData();
+    fillSettings(); renderRows();
+    showToast('已恢复默认数据');
+});
+
+/* ---------- init ---------- */
+fillSettings();
+renderRows();
+</script>
+</body>
+</html>
