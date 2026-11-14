@@ -1,7 +1,7 @@
 // 站点数据：settings = 全局设置，products = 商品列表（由后台管理页 admin.html 生成/导出）
 window.SITE_DATA = {
   "settings": {
-    "whatsapp": "84766707634",
+    "whatsapp": "8618656622231",
     "orderMessage": "Hello ! Please order: {name} (AED {price}). Private delivery  protect privacy. Here is your website: {link}",
     "websiteLink": "https://uaelovejune.com/Linh",
     "cartFooter": "Private delivery protect privacy. Website: {link}"
