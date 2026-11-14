@@ -142,9 +142,59 @@
         .hide-sm { display: none; }
         td, th { padding: 9px 8px; }
     }
+
+    /* ===== 登录门禁 ===== */
+    body:not(.authed) .topbar,
+    body:not(.authed) .wrap,
+    body:not(.authed) .modal-overlay,
+    body:not(.authed) .toast { display: none !important; }
+    #lockScreen {
+        position: fixed; inset: 0; z-index: 5000; background: #F7F4EF;
+        display: flex; align-items: center; justify-content: center; padding: 24px;
+    }
+    body.authed #lockScreen { display: none; }
+    .lock-card {
+        width: 100%; max-width: 380px; background: #fff; border: 1px solid #EAE3D9; border-radius: 10px;
+        box-shadow: 0 18px 50px rgba(26,24,22,0.10); padding: 34px 30px 26px;
+    }
+    .lock-card h1 { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 500; color: #1A1816; }
+    .lock-card .lock-sub { font-size: 0.62rem; letter-spacing: 2.4px; text-transform: uppercase; color: #A8895E; margin: 6px 0 24px; }
+    .lock-field { margin-bottom: 16px; }
+    .lock-field label { display: block; font-size: 0.7rem; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: #6B635B; margin-bottom: 7px; }
+    .lock-field input { width: 100%; padding: 12px 13px; border: 1px solid #DCD4C9; border-radius: 4px; background: #FDFCFA; font-size: 0.9rem; color: #1A1816; }
+    .lock-field input:focus { outline: none; border-color: #1A1816; }
+    .lock-btn {
+        width: 100%; padding: 13px; margin-top: 6px; border: none; border-radius: 4px; cursor: pointer;
+        background: #1A1816; color: #F7F4EF; font-size: 0.86rem; letter-spacing: 1.6px; font-weight: 500; transition: background .2s;
+    }
+    .lock-btn:hover { background: #33302B; }
+    .lock-btn:disabled { background: #C9BFB4; cursor: not-allowed; }
+    .lock-msg { min-height: 18px; font-size: 0.76rem; color: #C0392B; margin-top: 12px; text-align: center; }
+    .lock-msg.ok { color: #1FAA59; }
+    .lock-foot { margin-top: 18px; padding-top: 14px; border-top: 1px solid #F2EDE6; text-align: center; font-size: 0.68rem; color: #A69C91; letter-spacing: .4px; }
+    .lock-foot i { color: #A8895E; margin-right: 5px; }
 </style>
 </head>
 <body>
+
+<!-- ===== 登录门禁 ===== -->
+<div id="lockScreen">
+    <form class="lock-card" id="lockForm" autocomplete="off" novalidate>
+        <h1>站点后台管理</h1>
+        <p class="lock-sub">Authorized Access Only</p>
+        <div class="lock-field">
+            <label for="lockUser">账号</label>
+            <input id="lockUser" type="text" autocomplete="username" spellcheck="false" required>
+        </div>
+        <div class="lock-field">
+            <label for="lockPass">密码</label>
+            <input id="lockPass" type="password" autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="lock-btn" id="lockBtn">登 录</button>
+        <p class="lock-msg" id="lockMsg"></p>
+        <p class="lock-foot"><i class="fas fa-lock"></i>仅限授权人员使用</p>
+    </form>
+</div>
 
 <div class="topbar">
     <h1>站点后台管理<small>Product &amp; Settings Console</small></h1>
@@ -155,6 +205,7 @@
             <input type="file" id="fileImport" accept=".js,.json" style="display:none">
         </label>
         <button class="btn btn-outline btn-sm" id="btnReset"><i class="fas fa-rotate-left"></i> 恢复默认数据</button>
+        <button class="btn btn-outline btn-sm" id="btnLogout"><i class="fas fa-right-from-bracket"></i> 退出登录</button>
     </div>
 </div>
 
@@ -568,6 +619,151 @@ document.getElementById('btnReset').addEventListener('click', function() {
 /* ---------- init ---------- */
 fillSettings();
 renderRows();
+</script>
+
+<script>
+/* ============================================================
+   后台登录门禁
+   修改账号/密码：改下面的 AUTH_CONFIG。
+   hash = SHA-256(账号 + ":" + 密码) 的小写十六进制。
+   （改密码后务必重算 hash，否则登录不了）
+   ============================================================ */
+var AUTH_CONFIG = {
+    user: 'admin',
+    hash: '60e90762081d75bef69ba69d8bcb8d03b67fbb37b0445a5f918c7560a191c392'
+};
+
+function sha256Hex(msg) {
+    var K = [0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+             0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+             0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+             0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+             0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+             0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+             0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+             0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+    var H = [0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+    var bytes = [], i, c;
+    for (i = 0; i < msg.length; i++) {
+        c = msg.charCodeAt(i);
+        if (c < 0x80) bytes.push(c);
+        else if (c < 0x800) bytes.push(0xc0 | (c >> 6), 0x80 | (c & 63));
+        else bytes.push(0xe0 | (c >> 12), 0x80 | ((c >> 6) & 63), 0x80 | (c & 63));
+    }
+    var L = bytes.length;
+    bytes.push(0x80);
+    while (bytes.length % 64 !== 56) bytes.push(0);
+    bytes.push(0, 0, 0, 0);
+    var bits = L * 8;
+    bytes.push((bits >>> 24) & 255, (bits >>> 16) & 255, (bits >>> 8) & 255, bits & 255);
+
+    function rotr(x, n) { return (x >>> n) | (x << (32 - n)); }
+    for (var off = 0; off < bytes.length; off += 64) {
+        var w = new Array(64);
+        for (i = 0; i < 16; i++) {
+            w[i] = (bytes[off + i * 4] << 24) | (bytes[off + i * 4 + 1] << 16) | (bytes[off + i * 4 + 2] << 8) | bytes[off + i * 4 + 3];
+        }
+        for (i = 16; i < 64; i++) {
+            var s0 = rotr(w[i - 15], 7) ^ rotr(w[i - 15], 18) ^ (w[i - 15] >>> 3);
+            var s1 = rotr(w[i - 2], 17) ^ rotr(w[i - 2], 19) ^ (w[i - 2] >>> 10);
+            w[i] = (w[i - 16] + s0 + w[i - 7] + s1) | 0;
+        }
+        var a = H[0], b = H[1], cc = H[2], d = H[3], e = H[4], f = H[5], g = H[6], h = H[7];
+        for (i = 0; i < 64; i++) {
+            var S1 = rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25);
+            var ch = (e & f) ^ ((~e) & g);
+            var t1 = (h + S1 + ch + K[i] + w[i]) | 0;
+            var S0 = rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22);
+            var maj = (a & b) ^ (a & cc) ^ (b & cc);
+            var t2 = (S0 + maj) | 0;
+            h = g; g = f; f = e; e = (d + t1) | 0;
+            d = cc; cc = b; b = a; a = (t1 + t2) | 0;
+        }
+        H[0] = (H[0] + a) | 0; H[1] = (H[1] + b) | 0; H[2] = (H[2] + cc) | 0; H[3] = (H[3] + d) | 0;
+        H[4] = (H[4] + e) | 0; H[5] = (H[5] + f) | 0; H[6] = (H[6] + g) | 0; H[7] = (H[7] + h) | 0;
+    }
+    var out = '';
+    for (i = 0; i < 8; i++) out += ('00000000' + (H[i] >>> 0).toString(16)).slice(-8);
+    return out;
+}
+
+(function () {
+    var SESSION_KEY = 'adminAuthed';
+    var LOCK_UNTIL_KEY = 'adminLockUntil';
+    var FAIL_KEY = 'adminFails';
+    var MAX_FAILS = 5;
+    var LOCK_MS = 5 * 60 * 1000;
+
+    var form = document.getElementById('lockForm');
+    var userEl = document.getElementById('lockUser');
+    var passEl = document.getElementById('lockPass');
+    var btn = document.getElementById('lockBtn');
+    var msgEl = document.getElementById('lockMsg');
+
+    function setMsg(text, ok) {
+        msgEl.textContent = text || '';
+        msgEl.className = 'lock-msg' + (ok ? ' ok' : '');
+    }
+    function unlock() {
+        document.body.classList.add('authed');
+        sessionStorage.setItem(SESSION_KEY, '1');
+    }
+    function applyLockout() {
+        var until = parseInt(localStorage.getItem(LOCK_UNTIL_KEY) || '0', 10);
+        var left = until - Date.now();
+        if (left > 0) {
+            btn.disabled = true;
+            var mins = Math.ceil(left / 60000);
+            setMsg('尝试次数过多，请 ' + mins + ' 分钟后再试');
+            setTimeout(function () {
+                btn.disabled = false;
+                setMsg('');
+            }, left);
+            return true;
+        }
+        return false;
+    }
+
+    if (sessionStorage.getItem(SESSION_KEY) === '1') {
+        unlock();
+    } else {
+        applyLockout();
+        userEl.focus();
+    }
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var u = userEl.value.trim();
+        var p = passEl.value;
+        if (!u || !p) { setMsg('请输入账号和密码'); return; }
+        if (applyLockout()) return;
+
+        var ok = (u === AUTH_CONFIG.user) && (sha256Hex(u + ':' + p) === AUTH_CONFIG.hash);
+        if (ok) {
+            localStorage.removeItem(FAIL_KEY);
+            localStorage.removeItem(LOCK_UNTIL_KEY);
+            setMsg('验证通过，正在进入…', true);
+            unlock();
+        } else {
+            var fails = parseInt(localStorage.getItem(FAIL_KEY) || '0', 10) + 1;
+            localStorage.setItem(FAIL_KEY, String(fails));
+            if (fails >= MAX_FAILS) {
+                localStorage.setItem(LOCK_UNTIL_KEY, String(Date.now() + LOCK_MS));
+                localStorage.setItem(FAIL_KEY, '0');
+                applyLockout();
+            } else {
+                setMsg('账号或密码错误，还可尝试 ' + (MAX_FAILS - fails) + ' 次');
+            }
+            passEl.value = '';
+            passEl.focus();
+        }
+    });
+
+    document.getElementById('btnLogout').addEventListener('click', function () {
+        sessionStorage.removeItem(SESSION_KEY);
+        location.reload();
+    });
+})();
 </script>
 </body>
 </html>
