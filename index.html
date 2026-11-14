@@ -859,9 +859,9 @@
                 tagHtml +
                 '<div class="dri-product-img-container">' +
                     '<img src="' + esc(p.image) + '" class="dri-product-img" alt="' + esc(p.title) + '" loading="lazy">' +
-                    '<div class="dri-play-overlay" data-video="' + esc(p.video) + '">' +
+                    (p.video ? '<div class="dri-play-overlay" data-video="' + esc(p.video) + '">' +
                         '<div class="dri-play-icon"><i class="fas fa-play-circle"></i></div>' +
-                    '</div>' +
+                    '</div>' : '') +
                 '</div>' +
                 '<div class="dri-product-info">' +
                     '<h3 class="dri-product-title">' + esc(p.title) + '</h3>' +
@@ -971,6 +971,7 @@
         playOverlays.forEach(overlay => {
             overlay.addEventListener('click', () => {
                 const videoSrc = overlay.getAttribute('data-video');
+                if (!videoSrc) { return; }
                 while(videoPlayer.firstChild) { videoPlayer.removeChild(videoPlayer.firstChild); }
                 const source = document.createElement('source');
                 source.src = videoSrc;

@@ -120,6 +120,17 @@
     .upload-label:hover { border-color: #1A1816; color: #1A1816; }
     .img-row { display: flex; gap: 18px; align-items: flex-start; flex-wrap: wrap; }
 
+    .video-preview {
+        display: none; width: 100%; max-width: 320px; margin-top: 10px;
+        border-radius: 6px; border: 1px solid #EAE3D9; background: #000;
+    }
+    .video-preview.show { display: block; }
+    .acc-input {
+        padding: 8px 11px; border: 1px solid #D8CFC4; border-radius: 4px;
+        font-size: 0.8rem; background: #fff; color: #1A1816; min-width: 150px;
+    }
+    .acc-input:focus { outline: none; border-color: #1A1816; }
+
     .toast {
         position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%) translateY(80px);
         background: #1A1816; color: #F7F4EF; padding: 13px 22px; border-radius: 6px;
@@ -284,6 +295,36 @@
             </table>
             <div class="empty" id="emptyHint" style="display:none"><i class="fas fa-box-open" style="font-size:2.2rem; display:block; margin-bottom:10px; color:#DCD4C9;"></i>没有匹配的商品</div>
         </div>
+    <!-- ===== 登录账户 ===== -->
+    <div class="card">
+        <div class="card-head">
+            <div>
+                <h2>登录账户</h2>
+                <div class="hint">后台登录账号管理（密码以 SHA-256 存储，不存明文）</div>
+            </div>
+            <div class="toolbar">
+                <input type="text" class="acc-input" id="accUser" placeholder="新账号" autocomplete="off">
+                <input type="password" class="acc-input" id="accPass" placeholder="新密码（≥6 位）" autocomplete="new-password">
+                <button class="btn btn-dark btn-sm" id="btnAddAcc"><i class="fas fa-user-plus"></i> 添加账户</button>
+            </div>
+        </div>
+        <div style="overflow-x:auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>账号</th>
+                        <th class="hide-sm">密码哈希</th>
+                        <th style="width:130px">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="accRows"></tbody>
+            </table>
+        </div>
+        <div class="card-body" style="padding-top:14px; border-top:1px solid #F2EDE6;">
+            <div class="tip" style="font-size:0.72rem; color:#A69C91; line-height:1.7;">
+                内置账户 <b>admin</b> 不可删除；新增账户会先保存在本浏览器，点"导出 data.js"并覆盖服务器文件后，对其他设备生效。
+            </div>
+        </div>
     </div>
 </div>
 
@@ -343,7 +384,18 @@
                 </div>
                 <div class="field field-wide">
                     <label>视频链接（点击商品图播放，可留空）</label>
-                    <input type="text" id="fVideo" placeholder="https://....mp4">
+                    <input type="text" id="fVideo" placeholder="https://....mp4 或 videos/xxx.mp4">
+                    <div class="tip">填 <b>mp4 / webm 直链</b>（如你服务器或图床上的视频地址），或仓库内相对路径 <b>videos/xxx.mp4</b>。粘贴后下方会立即预览，能播就说明前台一定能播；留空则该商品不显示播放按钮。</div>
+                    <video class="video-preview" id="videoPreview" controls muted playsinline preload="metadata"></video>
+                    <div style="display:flex; gap:10px; align-items:center; margin-top:10px; flex-wrap:wrap;">
+                        <label class="upload-label"><i class="fas fa-file-video"></i> 上传本地视频（≤2MB）
+                            <input type="file" id="fileVideo" accept="video/mp4,video/webm,video/quicktime" style="display:none">
+                        </label>
+                        <button class="btn btn-outline btn-sm" id="btnVideoRepo" style="color:#1A1816; border-color:#D8CFC4;">
+                            <i class="fas fa-cloud-arrow-up"></i> 大视频：传仓库
+                        </button>
+                        <span class="tip" id="videoUploadTip" style="margin:0;"></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -371,8 +423,14 @@ function loadData() {
     return defaultData();
 }
 function saveData(data) {
-    localStorage.setItem(STORE_KEY, JSON.stringify(data));
+    try {
+        localStorage.setItem(STORE_KEY, JSON.stringify(data));
+    } catch (e) {
+        try { showToast('保存失败：本地存储已满（视频内嵌过大），请改用视频直链', false); } catch (e2) {}
+        return false;
+    }
     updateStats();
+    return true;
 }
 function hasLocalChanges() { return !!localStorage.getItem(STORE_KEY); }
 
@@ -738,7 +796,7 @@ function sha256Hex(msg) {
         if (!u || !p) { setMsg('请输入账号和密码'); return; }
         if (applyLockout()) return;
 
-        var ok = (u === AUTH_CONFIG.user) && (sha256Hex(u + ':' + p) === AUTH_CONFIG.hash);
+        var ok = matchAccount(u, p);
         if (ok) {
             localStorage.removeItem(FAIL_KEY);
             localStorage.removeItem(LOCK_UNTIL_KEY);
@@ -764,6 +822,144 @@ function sha256Hex(msg) {
         location.reload();
     });
 })();
+
+/* ---------- 多账户校验 ---------- */
+function getPublishAccounts() {
+    var out = [{ user: AUTH_CONFIG.user, hash: AUTH_CONFIG.hash }];
+    var pub = (window.SITE_DATA && window.SITE_DATA.accounts) || [];
+    var local = null;
+    try { local = JSON.parse(localStorage.getItem('siteDataV1')); } catch (e) {}
+    var src = (pub || []).concat((local && local.accounts) || []);
+    src.forEach(function (a) {
+        if (a && a.user && a.hash) out.push({ user: a.user, hash: String(a.hash).toLowerCase() });
+    });
+    return out;
+}
+function matchAccount(u, p) {
+    var h = sha256Hex(u + ':' + p);
+    var list = getPublishAccounts();
+    for (var i = 0; i < list.length; i++) {
+        if (list[i].user === u && list[i].hash === h) return true;
+    }
+    return false;
+}
+
+/* ---------- 账户管理 ---------- */
+function getAccounts() {
+    if (!state.accounts || !state.accounts.length) {
+        state.accounts = [{ user: AUTH_CONFIG.user, hash: AUTH_CONFIG.hash, builtin: true }];
+    }
+    return state.accounts;
+}
+function renderAccounts() {
+    var tbody = document.getElementById('accRows');
+    if (!tbody) return;
+    tbody.innerHTML = getAccounts().map(function (a, i) {
+        var isBuiltin = a.builtin || a.user === AUTH_CONFIG.user;
+        return '<tr>' +
+            '<td><strong>' + esc(a.user) + '</strong>' + (isBuiltin ? ' <span class="chip on">内置</span>' : '') + '</td>' +
+            '<td class="hide-sm" style="font-family:monospace; font-size:0.72rem; color:#A69C91;">' + esc(String(a.hash).slice(0, 16)) + '…</td>' +
+            '<td><div class="row-actions">' +
+                '<button class="icon-btn" title="修改密码" onclick="resetAccountPwd(' + i + ')"><i class="fas fa-key"></i></button>' +
+                (isBuiltin ? '' : '<button class="icon-btn danger" title="删除账户" onclick="deleteAccount(' + i + ')"><i class="fas fa-trash"></i></button>') +
+            '</div></td>' +
+        '</tr>';
+    }).join('');
+}
+window.resetAccountPwd = function (i) {
+    var a = getAccounts()[i];
+    if (!a) return;
+    var np = prompt('为账号「' + a.user + '」设置新密码（至少 6 位）：');
+    if (np === null) return;
+    if (np.length < 6) { showToast('密码至少 6 位', false); return; }
+    a.hash = sha256Hex(a.user + ':' + np);
+    saveData(state); renderAccounts();
+    showToast('密码已更新，导出 data.js 后全设备生效');
+};
+window.deleteAccount = function (i) {
+    var a = getAccounts()[i];
+    if (!a) return;
+    if (a.builtin || a.user === AUTH_CONFIG.user) { showToast('内置账户不能删除', false); return; }
+    if (!confirm('确定删除账户「' + a.user + '」？')) return;
+    state.accounts.splice(i, 1);
+    saveData(state); renderAccounts();
+    showToast('账户已删除');
+};
+document.getElementById('btnAddAcc').addEventListener('click', function () {
+    var u = document.getElementById('accUser').value.trim();
+    var p = document.getElementById('accPass').value;
+    if (!/^[A-Za-z0-9_.-]{3,20}$/.test(u)) { showToast('账号需 3-20 位字母/数字/下划线', false); return; }
+    if (p.length < 6) { showToast('密码至少 6 位', false); return; }
+    var accs = getAccounts();
+    for (var i = 0; i < accs.length; i++) {
+        if (accs[i].user === u) { showToast('该账号已存在', false); return; }
+    }
+    accs.push({ user: u, hash: sha256Hex(u + ':' + p) });
+    saveData(state); renderAccounts();
+    document.getElementById('accUser').value = '';
+    document.getElementById('accPass').value = '';
+    showToast('账户已添加');
+});
+
+/* ---------- 视频链接预览 ---------- */
+(function () {
+    var input = document.getElementById('fVideo');
+    var prev = document.getElementById('videoPreview');
+    if (!input || !prev) return;
+    input.addEventListener('input', function () {
+        var v = input.value.trim();
+        if (!v) { prev.classList.remove('show'); prev.removeAttribute('src'); return; }
+        prev.src = v;
+        prev.classList.add('show');
+    });
+    prev.addEventListener('error', function () {
+        if (!prev.getAttribute('src')) return;
+        prev.classList.remove('show');
+        showToast('该视频地址加载失败，请确认是可直接播放的 mp4/webm 链接', false);
+    });
+})();
+
+/* ---------- 本地上传视频 ---------- */
+(function () {
+    var fileInput = document.getElementById('fileVideo');
+    var tip = document.getElementById('videoUploadTip');
+    var repoBtn = document.getElementById('btnVideoRepo');
+    var MAX_INLINE = 2 * 1024 * 1024;   /* 2MB：再大浏览器本地存储会爆 */
+
+    if (repoBtn) {
+        repoBtn.addEventListener('click', function () {
+            window.open('https://github.com/Albert12du/uae-secret-delivery/upload/main/videos', '_blank');
+            showToast('已打开仓库 videos 目录上传页，传完这里填 videos/文件名.mp4');
+        });
+    }
+
+    if (!fileInput) return;
+    fileInput.addEventListener('change', function () {
+        var f = this.files[0];
+        this.value = '';
+        if (!f) return;
+
+        if (f.size > MAX_INLINE) {
+            var mb = (f.size / 1048576).toFixed(1);
+            if (tip) tip.innerHTML = '文件 <b>' + mb + 'MB</b> 超过 2MB，无法内嵌 → 请用"大视频：传仓库"，传完填 <b>videos/' + f.name + '</b>';
+            showToast(mb + 'MB 超过 2MB 上限，请改用"大视频：传仓库"', false);
+            return;
+        }
+
+        var reader = new FileReader();
+        reader.onload = function () {
+            var out = document.getElementById('fVideo');
+            out.value = reader.result;
+            out.dispatchEvent(new Event('input'));
+            if (tip) tip.innerHTML = '已内嵌本地视频（' + (f.size / 1024).toFixed(0) + 'KB），点"保存商品"生效';
+            showToast('本地视频已载入（' + (f.size / 1024).toFixed(0) + 'KB），记得保存商品');
+        };
+        reader.onerror = function () { showToast('读取视频失败', false); };
+        reader.readAsDataURL(f);
+    });
+})();
+
+renderAccounts();
 </script>
 </body>
 </html>
