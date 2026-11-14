@@ -836,11 +836,13 @@
     <script>
     // ===== 数据驱动渲染：优先读取后台管理页(admin.html)保存的数据(localStorage)，否则使用 data.js =====
     function getSiteData() {
+        // 服务器数据（data.js 由 Cloudflare Worker 动态返回）优先，其次才是本机缓存
+        if (window.SITE_DATA && window.SITE_DATA.products && window.SITE_DATA.products.length) return window.SITE_DATA;
         try {
             var saved = JSON.parse(localStorage.getItem('siteDataV1'));
             if (saved && saved.products && saved.products.length) return saved;
         } catch (e) {}
-        return window.SITE_DATA;
+        return window.SITE_DATA || { settings: {}, products: [] };
     }
     function siteSettings() { return getSiteData().settings || {}; }
     function waNumber() { return String(siteSettings().whatsapp || '').replace(/[^0-9]/g, ''); }

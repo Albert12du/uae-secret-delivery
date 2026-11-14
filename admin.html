@@ -322,7 +322,7 @@
         </div>
         <div class="card-body" style="padding-top:14px; border-top:1px solid #F2EDE6;">
             <div class="tip" style="font-size:0.72rem; color:#A69C91; line-height:1.7;">
-                内置账户 <b>admin</b> 不可删除；新增账户会先保存在本浏览器，点"导出 data.js"并覆盖服务器文件后，对其他设备生效。
+                内置账户 <b>admin</b> 不可删除；新增/删除账户会直接写入云端（Cloudflare KV），改完立即对所有设备生效，无需再导出文件。
             </div>
         </div>
     </div>
@@ -414,8 +414,37 @@
 var STORE_KEY = 'siteDataV1';
 var CATEGORIES = ['men', 'women', 'new', 'sale', 'best'];
 
-function defaultData() { return JSON.parse(JSON.stringify(window.SITE_DATA)); }
+/* ---------- 服务器接口（Cloudflare Worker + KV） ---------- */
+var API_BASE = '/api';
+var TOKEN_KEY = 'adminToken';
+function getToken() { try { return sessionStorage.getItem(TOKEN_KEY) || ''; } catch (e) { return ''; } }
+function setToken(t) {
+    try {
+        if (t) sessionStorage.setItem(TOKEN_KEY, t);
+        else sessionStorage.removeItem(TOKEN_KEY);
+    } catch (e) {}
+}
+function apiPost(path, body) {
+    var token = getToken();
+    return fetch(API_BASE + path, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'authorization': 'Bearer ' + token },
+        body: JSON.stringify(body || {})
+    }).then(function (r) { return r.json(); });
+}
+function apiGet(path) {
+    return fetch(API_BASE + path, {
+        headers: { 'authorization': 'Bearer ' + getToken() }
+    }).then(function (r) { return r.json(); });
+}
+
+function defaultData() { return JSON.parse(JSON.stringify(window.SITE_DATA || { settings: {}, products: [] })); }
 function loadData() {
+    // 服务器数据（data.js 由 Worker 动态返回）优先
+    if (window.SITE_DATA && window.SITE_DATA.products && window.SITE_DATA.products.length) {
+        try { localStorage.removeItem(STORE_KEY); } catch (e) {}
+        return JSON.parse(JSON.stringify(window.SITE_DATA));
+    }
     try {
         var saved = JSON.parse(localStorage.getItem(STORE_KEY));
         if (saved && saved.products && saved.products.length) return saved;
@@ -423,13 +452,36 @@ function loadData() {
     return defaultData();
 }
 function saveData(data) {
-    try {
-        localStorage.setItem(STORE_KEY, JSON.stringify(data));
-    } catch (e) {
-        try { showToast('保存失败：本地存储已满（视频内嵌过大），请改用视频直链', false); } catch (e2) {}
-        return false;
-    }
     updateStats();
+    var token = getToken();
+    if (!token) {
+        // 未登录服务器（例如本地 file:// 打开）：退化为本地保存
+        try {
+            localStorage.setItem(STORE_KEY, JSON.stringify(data));
+            showToast('已保存到本机（未上传服务器）');
+            updateStats();
+            return true;
+        } catch (e) {
+            showToast('保存失败：本地存储已满（视频内嵌过大），请改用视频直链', false);
+            return false;
+        }
+    }
+    fetch(API_BASE + '/save', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'authorization': 'Bearer ' + token },
+        body: JSON.stringify({ data: data })
+    }).then(function (r) { return r.json(); }).then(function (res) {
+        if (res && res.ok) {
+            try { localStorage.removeItem(STORE_KEY); } catch (e) {}
+            showToast('已保存到服务器，所有访客刷新即见');
+            updateStats();
+        } else {
+            showToast('保存失败：' + ((res && res.error) || '未知错误'), false);
+        }
+    }).catch(function () {
+        try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (e) {}
+        showToast('服务器连接失败，已暂存本机；联网后退出重登再保存', false);
+    });
     return true;
 }
 function hasLocalChanges() { return !!localStorage.getItem(STORE_KEY); }
@@ -642,7 +694,7 @@ document.getElementById('btnExport').addEventListener('click', function() {
     a.download = 'data.js';
     a.click();
     URL.revokeObjectURL(a.href);
-    showToast('已导出 data.js，用它覆盖服务器上的同名文件即可永久生效');
+    showToast('已导出 data.js（备份用；日常保存已直接写入云端）');
 });
 
 document.getElementById('fileImport').addEventListener('change', function() {
@@ -796,13 +848,14 @@ function sha256Hex(msg) {
         if (!u || !p) { setMsg('请输入账号和密码'); return; }
         if (applyLockout()) return;
 
-        var ok = matchAccount(u, p);
-        if (ok) {
+        function onOk() {
             localStorage.removeItem(FAIL_KEY);
             localStorage.removeItem(LOCK_UNTIL_KEY);
             setMsg('验证通过，正在进入…', true);
             unlock();
-        } else {
+            refreshAccounts();
+        }
+        function onFail(text) {
             var fails = parseInt(localStorage.getItem(FAIL_KEY) || '0', 10) + 1;
             localStorage.setItem(FAIL_KEY, String(fails));
             if (fails >= MAX_FAILS) {
@@ -810,14 +863,42 @@ function sha256Hex(msg) {
                 localStorage.setItem(FAIL_KEY, '0');
                 applyLockout();
             } else {
-                setMsg('账号或密码错误，还可尝试 ' + (MAX_FAILS - fails) + ' 次');
+                setMsg(text + '，还可尝试 ' + (MAX_FAILS - fails) + ' 次');
             }
             passEl.value = '';
             passEl.focus();
         }
+
+        btn.disabled = true;
+        setMsg('正在验证…');
+        fetch(API_BASE + '/login', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ u: u, p: p })
+        }).then(function (r) { return r.json(); }).then(function (res) {
+            btn.disabled = false;
+            if (res && res.ok) {
+                setToken(res.token);
+                onOk();
+            } else if (res && res.error === '账号或密码错误') {
+                onFail('账号或密码错误');
+            } else if (matchAccount(u, p)) {
+                onOk();   // 服务器异常时退回本地校验
+            } else {
+                onFail('账号或密码错误');
+            }
+        }).catch(function () {
+            btn.disabled = false;
+            if (matchAccount(u, p)) {
+                onOk();
+            } else {
+                onFail('账号或密码错误');
+            }
+        });
     });
 
     document.getElementById('btnLogout').addEventListener('click', function () {
+        setToken('');
         sessionStorage.removeItem(SESSION_KEY);
         location.reload();
     });
@@ -844,12 +925,21 @@ function matchAccount(u, p) {
     return false;
 }
 
-/* ---------- 账户管理 ---------- */
+/* ---------- 账户管理（服务器端优先） ---------- */
+var accountsCache = null;
 function getAccounts() {
+    if (accountsCache) return accountsCache;
     if (!state.accounts || !state.accounts.length) {
         state.accounts = [{ user: AUTH_CONFIG.user, hash: AUTH_CONFIG.hash, builtin: true }];
     }
     return state.accounts;
+}
+function refreshAccounts() {
+    if (!getToken()) { accountsCache = null; renderAccounts(); return; }
+    apiGet('/accounts').then(function (res) {
+        if (res && res.ok && res.accounts) accountsCache = res.accounts;
+        renderAccounts();
+    }).catch(function () { renderAccounts(); });
 }
 function renderAccounts() {
     var tbody = document.getElementById('accRows');
@@ -858,7 +948,8 @@ function renderAccounts() {
         var isBuiltin = a.builtin || a.user === AUTH_CONFIG.user;
         return '<tr>' +
             '<td><strong>' + esc(a.user) + '</strong>' + (isBuiltin ? ' <span class="chip on">内置</span>' : '') + '</td>' +
-            '<td class="hide-sm" style="font-family:monospace; font-size:0.72rem; color:#A69C91;">' + esc(String(a.hash).slice(0, 16)) + '…</td>' +
+            '<td class="hide-sm" style="font-family:monospace; font-size:0.72rem; color:#A69C91;">' +
+                (a.hash ? esc(String(a.hash).slice(0, 16)) + '…' : '服务器端加密') + '</td>' +
             '<td><div class="row-actions">' +
                 '<button class="icon-btn" title="修改密码" onclick="resetAccountPwd(' + i + ')"><i class="fas fa-key"></i></button>' +
                 (isBuiltin ? '' : '<button class="icon-btn danger" title="删除账户" onclick="deleteAccount(' + i + ')"><i class="fas fa-trash"></i></button>') +
@@ -872,15 +963,29 @@ window.resetAccountPwd = function (i) {
     var np = prompt('为账号「' + a.user + '」设置新密码（至少 6 位）：');
     if (np === null) return;
     if (np.length < 6) { showToast('密码至少 6 位', false); return; }
+    if (getToken()) {
+        apiPost('/account/reset', { u: a.user, p: np }).then(function (res) {
+            if (res && res.ok) { showToast('密码已更新（服务器生效）'); refreshAccounts(); }
+            else { showToast('修改失败：' + ((res && res.error) || '未知错误'), false); }
+        }).catch(function () { showToast('服务器连接失败', false); });
+        return;
+    }
     a.hash = sha256Hex(a.user + ':' + np);
     saveData(state); renderAccounts();
-    showToast('密码已更新，导出 data.js 后全设备生效');
+    showToast('密码已更新（本机）');
 };
 window.deleteAccount = function (i) {
     var a = getAccounts()[i];
     if (!a) return;
     if (a.builtin || a.user === AUTH_CONFIG.user) { showToast('内置账户不能删除', false); return; }
     if (!confirm('确定删除账户「' + a.user + '」？')) return;
+    if (getToken()) {
+        apiPost('/account/delete', { u: a.user }).then(function (res) {
+            if (res && res.ok) { showToast('账户已删除'); refreshAccounts(); }
+            else { showToast('删除失败：' + ((res && res.error) || '未知错误'), false); }
+        }).catch(function () { showToast('服务器连接失败', false); });
+        return;
+    }
     state.accounts.splice(i, 1);
     saveData(state); renderAccounts();
     showToast('账户已删除');
@@ -890,6 +995,19 @@ document.getElementById('btnAddAcc').addEventListener('click', function () {
     var p = document.getElementById('accPass').value;
     if (!/^[A-Za-z0-9_.-]{3,20}$/.test(u)) { showToast('账号需 3-20 位字母/数字/下划线', false); return; }
     if (p.length < 6) { showToast('密码至少 6 位', false); return; }
+    if (getToken()) {
+        apiPost('/account/add', { u: u, p: p }).then(function (res) {
+            if (res && res.ok) {
+                document.getElementById('accUser').value = '';
+                document.getElementById('accPass').value = '';
+                showToast('账户已添加（服务器生效，可直接登录）');
+                refreshAccounts();
+            } else {
+                showToast('添加失败：' + ((res && res.error) || '未知错误'), false);
+            }
+        }).catch(function () { showToast('服务器连接失败', false); });
+        return;
+    }
     var accs = getAccounts();
     for (var i = 0; i < accs.length; i++) {
         if (accs[i].user === u) { showToast('该账号已存在', false); return; }
@@ -960,6 +1078,7 @@ document.getElementById('btnAddAcc').addEventListener('click', function () {
 })();
 
 renderAccounts();
+refreshAccounts();
 </script>
 </body>
 </html>
