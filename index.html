@@ -200,6 +200,7 @@
 
     .card { background: var(--white); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; }
     .card-media { position: relative; aspect-ratio: 1 / 1; background: #EDECE8; overflow: hidden; }
+    .media-link { display: block; width: 100%; height: 100%; }
     .card-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .card-tag {
         position: absolute; top: 8px; left: 8px;
@@ -222,6 +223,13 @@
         font-variant-numeric: lining-nums;
         font-feature-settings: "lnum" 1;
         display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+        text-decoration: none;
+    }
+    .vcount {
+        position: absolute; right: -2px; top: -3px;
+        background: var(--green-deep); color: #fff;
+        font-size: 9px; font-weight: 600; line-height: 1;
+        padding: 3px 5px; border-radius: 8px;
     }
     .card-sku {
         font-family: 'Playfair Display', Georgia, serif;
@@ -497,6 +505,15 @@ function esc(s) {
 function priceNum(p) { var n = parseFloat(String(p == null ? '' : p).replace(/[^0-9.]/g, '')); return isNaN(n) ? 0 : n; }
 function priceText(p) { var n = priceNum(p); return n ? (n % 1 === 0 ? n.toFixed(0) : n.toFixed(2)) : String(p || ''); }
 function skuCode(sku) { var m = String(sku || '').match(/^[A-Za-z0-9]+/); return m ? m[0].toUpperCase() : String(sku || 'ITEM'); }
+// 一个商品可以有多条视频：video（首条，兼容旧数据）+ videos（数组）
+function videosOf(p) {
+    var list = [];
+    if (p.video && String(p.video).trim()) list.push(String(p.video).trim());
+    if (Array.isArray(p.videos)) p.videos.forEach(function (v) { if (v && String(v).trim()) list.push(String(v).trim()); });
+    var out = [];
+    list.forEach(function (v) { if (out.indexOf(v) < 0) out.push(v); });
+    return out;
+}
 
 // 只展示 KY / VIP 系列产品（其余 SKU 暂不上架）
 var ALL = (getSiteData().products || []).filter(function (p) {
@@ -525,14 +542,16 @@ function visibleList() {
 }
 
 function cardHtml(p) {
+    var code = skuCode(p.sku);
     var tag = p.tag ? '<div class="card-tag">' + esc(p.tag) + '</div>' : '';
-    var play = p.video ? '<button class="play-badge" data-video="' + esc(p.video) + '" aria-label="Play video"><i class="fas fa-play"></i></button>' : '';
+    var vids = videosOf(p);
+    var play = vids.length ? '<button class="play-badge" data-video="' + esc(vids[0]) + '" aria-label="Play video"><i class="fas fa-play"></i>' + (vids.length > 1 ? '<span class="vcount">' + vids.length + '</span>' : '') + '</button>' : '';
     return '<article class="card fade-in">' +
         '<div class="card-media">' + tag +
-            '<img src="' + esc(p.image) + '" alt="' + esc(p.title) + '" loading="lazy">' + play +
+            '<a class="media-link" href="product?p=' + encodeURIComponent(code) + '" aria-label="' + esc(code) + ' detail"><img src="' + esc(p.image) + '" alt="' + esc(p.title) + '" loading="lazy"></a>' + play +
         '</div>' +
         '<div class="card-body">' +
-            '<div class="card-name">' + esc(skuCode(p.sku)) + '</div>' +
+            '<a class="card-name" href="product?p=' + encodeURIComponent(code) + '">' + esc(code) + '</a>' +
             '<div class="card-sub">' + esc(p.title) + '</div>' +
             '<div class="card-price"><span class="cur">AED</span>' + esc(priceText(p.price)) + '</div>' +
             (p.desc ? '<div class="card-desc">' + esc(p.desc) + '</div>' : '') +

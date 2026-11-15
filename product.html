@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product detail - Luna Secrets</title>
+    <meta name="description" content="Private collection product detail. Discreet delivery in 1-3 days across the UAE.">
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init', '1291151505987068');fbq('track', 'PageView');</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1291151505987068&ev=PageView&noscript=1"/></noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap">
+    <script src="data.js?v=20261115"></script>
+<style>
+    :root { --bg:#F3F3F0; --ink:#16150F; --muted:#71706A; --line:#DEDDD7; --green:#12352A; --green-deep:#0E2A21; --white:#FFFFFF; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:var(--bg); color:var(--ink); font-family:'Inter',-apple-system,'Segoe UI',sans-serif; font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased; padding-bottom:80px; }
+    .wrap { width:100%; max-width:1120px; margin:0 auto; padding:0 16px; }
+    a { color:inherit; }
+
+    .topbar { background:#fff; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:50; }
+    .topbar .inner { display:flex; align-items:center; justify-content:space-between; height:58px; }
+    .brand { font-family:'Playfair Display',Georgia,serif; font-size:17px; letter-spacing:.14em; font-weight:600; text-decoration:none; text-transform:uppercase; }
+    .brand span { color:var(--green); }
+    .topnav { display:flex; align-items:center; gap:16px; font-size:13px; flex-wrap:nowrap; flex:none; }
+    .topnav a { color:var(--muted); text-decoration:none; white-space:nowrap; }
+    .topnav a.wa i { color:var(--green); margin-right:4px; }
+
+    .crumb { padding:14px 0 0; font-size:12px; color:var(--muted); letter-spacing:.04em; }
+    .crumb a { text-decoration:none; color:var(--muted); }
+    .crumb span { color:var(--ink); }
+
+    .detail { display:grid; grid-template-columns:1fr; gap:22px; padding-top:16px; }
+    @media (min-width:820px) { .detail { grid-template-columns:1.06fr .94fr; gap:34px; align-items:start; } }
+
+    .media { background:#fff; border:1px solid var(--line); border-radius:4px; overflow:hidden; }
+    .media-stage { position:relative; aspect-ratio:1/1; background:#EDECE8; }
+    .media-stage img, .media-stage video { width:100%; height:100%; object-fit:contain; display:block; background:#fff; }
+    .media-stage video { background:#0B1A14; }
+    .media-tag { position:absolute; top:10px; left:10px; background:var(--green-deep); color:#fff; font-size:10px; letter-spacing:.12em; text-transform:uppercase; padding:5px 9px; border-radius:2px; }
+    .thumbs { display:flex; gap:8px; padding:10px; overflow-x:auto; }
+    .thumb { flex:none; width:64px; height:64px; border:1px solid var(--line); border-radius:3px; overflow:hidden; background:#EDECE8; cursor:pointer; position:relative; }
+    .thumb.active { border-color:var(--green-deep); box-shadow:0 0 0 1px var(--green-deep); }
+    .thumb img { width:100%; height:100%; object-fit:cover; }
+    .thumb .vbadge { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(14,42,33,.55); color:#fff; font-size:14px; }
+
+    .info .eyebrow { font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
+    .info h1 { font-family:'Playfair Display',Georgia,serif; font-size:34px; font-weight:600; letter-spacing:.03em; line-height:1.15; margin-top:6px; }
+    .info .pname { font-size:15px; color:var(--muted); margin-top:6px; }
+    .price { font-family:'Inter',sans-serif; font-size:20px; font-weight:600; margin-top:16px; font-variant-numeric:tabular-nums; }
+    .price .cur { font-size:12px; font-weight:500; color:var(--muted); letter-spacing:.08em; margin-right:6px; }
+    .desc { font-size:14px; color:#3E3D38; margin-top:14px; line-height:1.7; white-space:pre-line; }
+    .divider { border-top:1px solid var(--line); margin:20px 0; }
+    .actions { display:flex; gap:8px; }
+    .btn-order { flex:1; border:0; background:var(--green-deep); color:#fff; font-family:inherit; font-size:12px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; padding:15px 10px; border-radius:2px; cursor:pointer; }
+    .btn-order:hover { background:var(--green); }
+    .btn-add { width:52px; border:1px solid var(--line); background:#fff; color:var(--ink); border-radius:2px; cursor:pointer; font-size:15px; }
+    .btn-add:hover { background:#F1F0EC; }
+    .perks { list-style:none; margin-top:18px; font-size:13px; color:var(--muted); }
+    .perks li { margin-bottom:8px; }
+    .topnav a.wa { display:inline-flex; align-items:center; gap:5px; }
+    .perks i { color:var(--green); width:18px; font-size:12px; }
+
+    .section-title { font-family:'Playfair Display',Georgia,serif; font-size:26px; font-weight:500; margin-top:44px; padding-bottom:12px; border-bottom:1px solid var(--line); }
+    .related { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:16px; }
+    @media (min-width:720px) { .related { grid-template-columns:repeat(4,1fr); gap:16px; } }
+    .rcard { background:#fff; border:1px solid var(--line); border-radius:4px; overflow:hidden; text-decoration:none; display:block; }
+    .rcard img { width:100%; aspect-ratio:1/1; object-fit:cover; display:block; }
+    .rcard .body { padding:10px 11px 12px; }
+    .rcard .code { font-family:'Playfair Display',Georgia,serif; font-size:15px; font-weight:600; letter-spacing:.03em; }
+    .rcard .nm { font-size:11px; color:var(--muted); margin-top:2px; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden; }
+    .rcard .pr { font-size:13px; font-weight:600; margin-top:6px; }
+
+    footer { background:var(--green-deep); color:#D7E3DC; margin-top:46px; padding:30px 0 24px; }
+    footer .fbrand { font-family:'Playfair Display',Georgia,serif; font-size:20px; letter-spacing:.14em; color:#fff; }
+    footer p { font-size:13px; color:#A9BEB4; margin-top:8px; max-width:320px; }
+    footer .legal { border-top:1px solid rgba(255,255,255,.14); margin-top:20px; padding-top:14px; font-size:12px; color:#8FB0A2; }
+
+    .floaters { position:fixed; right:14px; bottom:18px; z-index:70; display:flex; flex-direction:column; gap:10px; }
+    .fab { width:50px; height:50px; border-radius:50%; border:0; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:20px; box-shadow:0 6px 18px rgba(0,0,0,.18); }
+    .fab-wa { background:#25D366; color:#fff; }
+    .fab-cart { background:var(--green-deep); color:#fff; font-size:17px; position:relative; }
+    .fab-badge { position:absolute; top:-4px; right:-4px; min-width:20px; height:20px; border-radius:10px; background:#fff; color:var(--green-deep); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; padding:0 5px; }
+
+    .modal { position:fixed; inset:0; background:rgba(12,20,16,.72); display:none; align-items:center; justify-content:center; z-index:90; padding:18px; }
+    .modal.active { display:flex; }
+    .confirm-box { background:#fff; width:100%; max-width:420px; border-radius:6px; padding:24px 22px; text-align:center; }
+    .confirm-box .ic { width:52px; height:52px; border-radius:50%; background:#ECF6F0; color:#127C4A; display:flex; align-items:center; justify-content:center; font-size:24px; margin:0 auto 14px; }
+    .confirm-box h3 { font-family:'Playfair Display',Georgia,serif; font-size:21px; font-weight:500; margin-bottom:8px; }
+    .confirm-box p { font-size:13px; color:var(--muted); }
+    .confirm-name { font-size:15px; font-weight:600; margin:10px 0 14px; }
+    .confirm-btns { display:flex; gap:8px; margin-top:8px; }
+    .confirm-btns button { flex:1; font-family:inherit; font-size:12px; letter-spacing:.08em; text-transform:uppercase; padding:12px 8px; border-radius:3px; cursor:pointer; }
+    .c-cancel { border:1px solid var(--line); background:#fff; color:var(--muted); }
+    .c-go { border:0; background:var(--green-deep); color:#fff; font-weight:600; }
+
+    .cart-panel { position:fixed; top:0; right:0; bottom:0; width:100%; max-width:400px; background:#fff; z-index:95; display:none; flex-direction:column; box-shadow:-8px 0 30px rgba(0,0,0,.12); }
+    .cart-panel.active { display:flex; }
+    .cart-head { display:flex; align-items:center; justify-content:space-between; padding:16px 18px; border-bottom:1px solid var(--line); }
+    .cart-head h3 { font-family:'Playfair Display',Georgia,serif; font-size:19px; font-weight:500; }
+    .cart-head button { border:0; background:none; font-size:22px; color:var(--muted); cursor:pointer; }
+    .cart-list { flex:1; overflow-y:auto; padding:8px 18px; }
+    .cart-item { display:flex; gap:10px; align-items:center; padding:12px 0; border-bottom:1px solid #F0EFEA; }
+    .cart-thumb { width:52px; height:52px; border-radius:3px; overflow:hidden; background:#EDECE8; flex:none; }
+    .cart-thumb img { width:100%; height:100%; object-fit:cover; }
+    .cart-info { flex:1; min-width:0; }
+    .cart-info .n { font-size:13px; font-weight:600; }
+    .cart-info .p { font-size:12px; color:var(--muted); }
+    .qty { display:flex; align-items:center; gap:6px; }
+    .qty button { width:24px; height:24px; border:1px solid var(--line); background:#fff; border-radius:2px; cursor:pointer; font-size:12px; }
+    .cart-foot { border-top:1px solid var(--line); padding:16px 18px; }
+    .cart-total { display:flex; justify-content:space-between; font-size:14px; margin-bottom:12px; }
+    .cart-foot button { width:100%; border:0; background:var(--green-deep); color:#fff; font-family:inherit; font-size:12px; letter-spacing:.1em; text-transform:uppercase; padding:14px; border-radius:3px; cursor:pointer; }
+    .cart-empty { padding:40px 0; text-align:center; color:var(--muted); font-size:13px; }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+    <div class="wrap inner">
+        <a class="brand" href="./">LUNA <span>SECRETS</span></a>
+        <nav class="topnav">
+            <a href="./">Collection</a>
+            <a class="wa" href="#" id="headWa"><i class="fab fa-whatsapp"></i>Order</a>
+        </nav>
+    </div>
+</header>
+
+<div class="wrap">
+    <div class="crumb"><a href="./">Collection</a> / <span id="crumbName">Product</span></div>
+
+    <section class="detail" id="detail" hidden>
+        <div class="media">
+            <div class="media-stage" id="mediaStage"></div>
+            <div class="thumbs" id="thumbs"></div>
+        </div>
+        <div class="info">
+            <div class="eyebrow">THE UAE COLLECTION</div>
+            <h1 id="pSku">-</h1>
+            <div class="pname" id="pName">-</div>
+            <div class="price"><span class="cur">AED</span><span id="pPrice">0</span></div>
+            <div class="desc" id="pDesc"></div>
+            <div class="divider"></div>
+            <div class="actions">
+                <button class="btn-order" id="btnOrder">Order on WhatsApp</button>
+                <button class="btn-add" id="btnAdd" aria-label="Add to cart"><i class="fas fa-plus"></i></button>
+            </div>
+            <ul class="perks">
+                <li><i class="fas fa-box"></i> Discreet packaging, no brand on the parcel</li>
+                <li><i class="fas fa-truck-fast"></i> Delivery within UAE in 1-3 days</li>
+                <li><i class="fab fa-whatsapp"></i> Order and support on WhatsApp</li>
+                <li><i class="fas fa-shield-halved"></i> Pay on delivery, no card details</li>
+            </ul>
+        </div>
+    </section>
+
+    <div class="wrap" id="notFound" hidden style="padding:60px 0; text-align:center; color:#71706A;">
+        <p style="font-family:'Playfair Display',Georgia,serif; font-size:24px; color:#16150F;">Product not found</p>
+        <p style="margin-top:10px; font-size:14px;">This item may have been removed. <a href="./" style="color:#12352A; text-decoration:underline;">Back to the collection</a></p>
+    </div>
+
+    <h2 class="section-title" id="relatedTitle" hidden>You may also like</h2>
+    <div class="related" id="related"></div>
+</div>
+
+<footer>
+    <div class="wrap">
+        <div class="fbrand">LUNA SECRETS</div>
+        <p>A private collection, delivered discreetly across the UAE. Order directly on WhatsApp, no card details needed.</p>
+        <div class="legal">&copy; <span id="year">2026</span> lunasecret.top &middot; Private delivery &middot; Prices in AED</div>
+    </div>
+</footer>
+
+<div class="floaters">
+    <button class="fab fab-cart" id="fabCart" aria-label="Cart"><i class="fas fa-shopping-bag"></i><span class="fab-badge" id="cartBadge">0</span></button>
+    <button class="fab fab-wa" id="fabWa" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></button>
+</div>
+
+<div class="modal" id="confirmModal">
+    <div class="confirm-box">
+        <div class="ic"><i class="fab fa-whatsapp"></i></div>
+        <h3>Confirm your order</h3>
+        <p>You are about to place an order for:</p>
+        <div class="confirm-name" id="confirmName">Product</div>
+        <p>This opens WhatsApp to finish your order with our team.</p>
+        <div class="confirm-btns">
+            <button class="c-cancel" id="confirmCancel">Cancel</button>
+            <button class="c-go" id="confirmGo"><i class="fab fa-whatsapp"></i> Proceed</button>
+        </div>
+    </div>
+</div>
+
+<div class="cart-panel" id="cartPanel">
+    <div class="cart-head"><h3>Your cart</h3><button id="cartClose">&times;</button></div>
+    <div class="cart-list" id="cartList"></div>
+    <div class="cart-foot">
+        <div class="cart-total"><span>Total</span><span id="cartTotal">AED 0.00</span></div>
+        <button id="cartWa"><i class="fab fa-whatsapp"></i> Order via WhatsApp</button>
+    </div>
+</div>
+
+<script>
+function getSiteData() {
+    if (window.SITE_DATA && window.SITE_DATA.products && window.SITE_DATA.products.length) return window.SITE_DATA;
+    try {
+        var saved = JSON.parse(localStorage.getItem('siteDataV1'));
+        if (saved && saved.products && saved.products.length) return saved;
+    } catch (e) {}
+    return window.SITE_DATA || { settings: {}, products: [] };
+}
+function siteSettings() { return getSiteData().settings || {}; }
+function waNumber() { return String(siteSettings().whatsapp || '').replace(/[^0-9]/g, ''); }
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function priceNum(p) { var n = parseFloat(String(p == null ? '' : p).replace(/[^0-9.]/g, '')); return isNaN(n) ? 0 : n; }
+function priceText(p) { var n = priceNum(p); return n ? (n % 1 === 0 ? n.toFixed(0) : n.toFixed(2)) : String(p || ''); }
+function skuCode(sku) { var m = String(sku || '').match(/^[A-Za-z0-9]+/); return m ? m[0].toUpperCase() : String(sku || 'ITEM'); }
+
+var ALL = (getSiteData().products || []);
+var PRODUCT = null;
+var MEDIA = [];
+var cart = [];
+var currentMedia = 0;
+
+// 支持 ?p=KY27 或 ?id=33
+(function resolveProduct() {
+    var q = new URLSearchParams(location.search);
+    var key = (q.get('p') || q.get('sku') || '').trim().toUpperCase();
+    var id = (q.get('id') || '').trim();
+    var hit = null;
+    if (key) hit = ALL.filter(function (p) { return skuCode(p.sku) === key; })[0] || null;
+    if (!hit && id) hit = ALL.filter(function (p) { return String(p.id) === id; })[0] || null;
+    if (!hit && !key && !id) hit = ALL[0] || null;
+    PRODUCT = hit || null;
+})();
+
+function videosOf(p) {
+    var list = [];
+    if (p.video) list.push(p.video);
+    if (Array.isArray(p.videos)) {
+        p.videos.forEach(function (v) { if (v && String(v).trim()) list.push(String(v).trim()); });
+    }
+    var out = [];
+    list.forEach(function (v) { var s = String(v).trim(); if (s && out.indexOf(s) < 0) out.push(s); });
+    return out;
+}
+function buildMedia(p) {
+    MEDIA = [];
+    if (p.image) MEDIA.push({ type: 'image', src: p.image });
+    videosOf(p).forEach(function (v) { MEDIA.push({ type: 'video', src: v }); });
+}
+
+function renderStage() {
+    var stage = document.getElementById('mediaStage');
+    var m = MEDIA[currentMedia];
+    if (!m) { stage.innerHTML = ''; return; }
+    if (m.type === 'image') {
+        stage.innerHTML = (PRODUCT.tag ? '<div class="media-tag">' + esc(PRODUCT.tag) + '</div>' : '') +
+            '<img src="' + esc(m.src) + '" alt="' + esc(PRODUCT.title) + '">';
+    } else {
+        stage.innerHTML = '<video controls playsinline preload="metadata" src="' + esc(m.src) + '"></video>';
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('.thumb'), function (t, i) {
+        t.classList.toggle('active', i === currentMedia);
+    });
+}
+function renderThumbs() {
+    var box = document.getElementById('thumbs');
+    box.innerHTML = MEDIA.map(function (m, i) {
+        var thumb = (m.type === 'image' && PRODUCT.image) ? PRODUCT.image : (PRODUCT.image || '');
+        return '<div class="thumb' + (i === 0 ? ' active' : '') + '" data-i="' + i + '">' +
+            (thumb ? '<img src="' + esc(thumb) + '" alt="">' : '') +
+            (m.type === 'video' ? '<div class="vbadge"><i class="fas fa-play"></i></div>' : '') +
+        '</div>';
+    }).join('');
+    box.hidden = MEDIA.length <= 1;
+    box.addEventListener('click', function (e) {
+        var t = e.target.closest('.thumb'); if (!t) return;
+        currentMedia = parseInt(t.getAttribute('data-i'), 10) || 0;
+        renderStage();
+    });
+}
+
+function renderProduct() {
+    if (!PRODUCT) { document.getElementById('notFound').hidden = false; return; }
+    document.getElementById('detail').hidden = false;
+    document.getElementById('pSku').textContent = skuCode(PRODUCT.sku);
+    document.getElementById('pName').textContent = PRODUCT.title || '';
+    document.getElementById('pPrice').textContent = priceText(PRODUCT.price);
+    document.getElementById('pDesc').textContent = PRODUCT.desc || '';
+    document.getElementById('crumbName').textContent = skuCode(PRODUCT.sku);
+    document.title = skuCode(PRODUCT.sku) + ' - ' + (PRODUCT.title || 'Product') + ' | Luna Secrets';
+    buildMedia(PRODUCT);
+    renderThumbs();
+    currentMedia = 0;
+    renderStage();
+    if (typeof fbq === 'function') fbq('track', 'ViewContent', { content_ids: [skuCode(PRODUCT.sku)], content_type: 'product', value: priceNum(PRODUCT.price), currency: 'AED' });
+
+    // 相关推荐：同分类优先
+    var cats = String(PRODUCT.category || '').split(/\s+/).filter(Boolean);
+    var pool = ALL.filter(function (p) { return p.id !== PRODUCT.id; });
+    var same = pool.filter(function (p) {
+        var pc = String(p.category || '').toLowerCase();
+        return cats.some(function (c) { return pc.indexOf(c.toLowerCase()) > -1; });
+    });
+    var pick = same.concat(pool.filter(function (p) { return same.indexOf(p) < 0; })).slice(0, 4);
+    if (pick.length) {
+        document.getElementById('relatedTitle').hidden = false;
+        document.getElementById('related').innerHTML = pick.map(function (p) {
+            return '<a class="rcard" href="product?p=' + encodeURIComponent(skuCode(p.sku)) + '">' +
+                '<img src="' + esc(p.image) + '" alt="' + esc(p.title) + '" loading="lazy">' +
+                '<div class="body"><div class="code">' + esc(skuCode(p.sku)) + '</div>' +
+                '<div class="nm">' + esc(p.title) + '</div>' +
+                '<div class="pr">AED ' + esc(priceText(p.price)) + '</div></div>' +
+            '</a>';
+        }).join('');
+    }
+}
+
+/* ---- 下单 ---- */
+var confirmModal = document.getElementById('confirmModal');
+var pendingUrl = null, pendingPrice = 0;
+function orderMessage(name, price) {
+    var tpl = siteSettings().orderMessage || 'Hello ! Please order: {name} (AED {price})';
+    return tpl.replace('{name}', name).replace('{price}', price).replace('{link}', siteSettings().websiteLink || '');
+}
+function askOrder() {
+    if (!PRODUCT) return;
+    var name = skuCode(PRODUCT.sku);
+    pendingPrice = priceNum(PRODUCT.price);
+    pendingUrl = 'https://wa.me/' + waNumber() + '?text=' + encodeURIComponent(orderMessage(name, priceText(PRODUCT.price)));
+    document.getElementById('confirmName').textContent = name;
+    confirmModal.classList.add('active');
+}
+document.getElementById('btnOrder').addEventListener('click', askOrder);
+document.getElementById('confirmCancel').addEventListener('click', function () { confirmModal.classList.remove('active'); });
+confirmModal.addEventListener('click', function (e) { if (e.target === confirmModal) confirmModal.classList.remove('active'); });
+document.getElementById('confirmGo').addEventListener('click', function () {
+    if (typeof fbq === 'function') fbq('track', 'AddToCart', { value: pendingPrice || 200, currency: 'AED' });
+    if (pendingUrl) window.open(pendingUrl, '_blank');
+    confirmModal.classList.remove('active');
+    if (typeof fbq === 'function') fbq('track', 'Purchase', { value: pendingPrice || 200, currency: 'AED' });
+});
+
+function chatUrl() { return 'https://wa.me/' + waNumber() + '?text=' + encodeURIComponent('Hello, I would like to know more about this product.'); }
+['headWa', 'fabWa'].forEach(function (id) {
+    document.getElementById(id).addEventListener('click', function (e) { e.preventDefault(); window.open(chatUrl(), '_blank'); });
+});
+
+/* ---- 购物车 ---- */
+var cartPanel = document.getElementById('cartPanel');
+function imgOf(id) { for (var i = 0; i < ALL.length; i++) { if (String(ALL[i].id) === String(id)) return ALL[i].image || ''; } return ''; }
+function findIdx(id) { for (var i = 0; i < cart.length; i++) { if (String(cart[i].id) === String(id)) return i; } return -1; }
+function addToCart(id, name, price) {
+    var idx = findIdx(id);
+    if (idx > -1) cart[idx].qty += 1;
+    else cart.push({ id: id, name: name, price: priceNum(price), img: imgOf(id), qty: 1 });
+    syncCart();
+}
+function syncCart() {
+    var c = cart.reduce(function (s, i) { return s + i.qty; }, 0);
+    document.getElementById('cartBadge').textContent = c;
+    renderCart();
+}
+function renderCart() {
+    var list = document.getElementById('cartList');
+    if (!cart.length) {
+        list.innerHTML = '<div class="cart-empty">Your cart is empty</div>';
+        document.getElementById('cartTotal').textContent = 'AED 0.00';
+        return;
+    }
+    var total = 0;
+    list.innerHTML = cart.map(function (it, i) {
+        total += it.price * it.qty;
+        return '<div class="cart-item"><div class="cart-thumb">' + (it.img ? '<img src="' + esc(it.img) + '" alt="">' : '') + '</div>' +
+            '<div class="cart-info"><div class="n">' + esc(it.name) + '</div><div class="p">AED ' + it.price.toFixed(2) + '</div></div>' +
+            '<div class="qty"><button data-q="-" data-i="' + i + '">-</button><span>' + it.qty + '</span><button data-q="+" data-i="' + i + '">+</button></div></div>';
+    }).join('');
+    document.getElementById('cartTotal').textContent = 'AED ' + total.toFixed(2);
+}
+document.getElementById('btnAdd').addEventListener('click', function () {
+    if (!PRODUCT) return;
+    addToCart(PRODUCT.id, skuCode(PRODUCT.sku), PRODUCT.price);
+});
+document.getElementById('cartList').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-q]'); if (!b) return;
+    var i = parseInt(b.getAttribute('data-i'), 10);
+    if (b.getAttribute('data-q') === '+') cart[i].qty += 1;
+    else { cart[i].qty -= 1; if (cart[i].qty <= 0) cart.splice(i, 1); }
+    syncCart();
+});
+function openCart() { renderCart(); cartPanel.classList.add('active'); }
+function closeCart() { cartPanel.classList.remove('active'); }
+document.getElementById('fabCart').addEventListener('click', openCart);
+document.getElementById('cartClose').addEventListener('click', closeCart);
+document.getElementById('cartWa').addEventListener('click', function () {
+    if (!cart.length) return;
+    var lines = [], total = 0;
+    cart.forEach(function (it, i) { var sub = it.price * it.qty; total += sub; lines.push((i + 1) + '. ' + it.name + ' x ' + it.qty + ' - AED ' + sub.toFixed(2)); });
+    lines.push('Total: AED ' + total.toFixed(2));
+    var foot = siteSettings().cartFooter || 'Private delivery protect privacy. Website: {link}';
+    lines.push(foot.replace('{link}', siteSettings().websiteLink || ''));
+    window.open('https://wa.me/' + waNumber() + '?text=' + encodeURIComponent(lines.join('\n')), '_blank');
+    cart = []; syncCart(); closeCart();
+});
+
+document.getElementById('year').textContent = new Date().getFullYear();
+renderProduct();
+syncCart();
+</script>
+
+<script>
+(function () {
+    function getTrackId() {
+        var params = new URLSearchParams(window.location.search);
+        var rd = params.get('rd');
+        if (!rd) return null;
+        try { return atob(decodeURIComponent(rd)).split('|')[0] || null; } catch (e) { return null; }
+    }
+    var trackId = getTrackId();
+    if (!trackId) return;
+    function logConversion(info) {
+        var img = new Image(1, 1);
+        var params = new URLSearchParams({ t: trackId, e: 'whatsapp_click', p: info.id || 'unknown', n: encodeURIComponent(info.name || 'product'), ts: Date.now(), r: Math.random().toString(36).substr(2, 6) });
+        img.src = 'https://uaelovejune.com/Linh/pixel.gif?' + params.toString();
+        img.style.display = 'none';
+        document.body.appendChild(img);
+    }
+    document.addEventListener('click', function (e) {
+        var target = e.target;
+        while (target && target !== document) {
+            var isWa = (target.classList && (target.classList.contains('btn-order') || target.classList.contains('c-go') || target.classList.contains('fab-wa')));
+            if (isWa) { logConversion({ id: (PRODUCT && PRODUCT.id) || '', name: (PRODUCT && skuCode(PRODUCT.sku)) || '' }); break; }
+            target = target.parentElement;
+        }
+    }, true);
+})();
+</script>
+</body>
+</html>

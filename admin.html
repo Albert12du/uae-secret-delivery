@@ -397,6 +397,11 @@
                         <span class="tip" id="videoUploadTip" style="margin:0;"></span>
                     </div>
                 </div>
+                <div class="field field-wide">
+                    <label>更多视频（详情页画廊用，每行一个链接）</label>
+                    <textarea id="fVideos" rows="4" placeholder="https://....mp4&#10;videos/xxx-2.mp4"></textarea>
+                    <div class="tip">上面的"视频链接"是第 1 条，这里可以再挂多条（一条一行）。商品详情页会按顺序列出全部视频，卡片上显示视频数量角标；留空则详情页只有图片 + 第 1 条视频。</div>
+                </div>
             </div>
         </div>
         <div class="modal-foot">
@@ -610,6 +615,7 @@ window.openEdit = function(i) {
     document.getElementById('fSku').value = p.sku || '';
     document.getElementById('fImage').value = p.image || '';
     document.getElementById('fVideo').value = p.video || '';
+    document.getElementById('fVideos').value = Array.isArray(p.videos) ? p.videos.join('\n') : '';
     document.getElementById('fTag').value = p.tag || '';
     buildCatChecks(p.category);
     updatePreview();
@@ -619,7 +625,7 @@ window.openEdit = function(i) {
 document.getElementById('btnAdd').addEventListener('click', function() {
     editingIndex = -1;
     document.getElementById('modalTitle').textContent = '添加商品';
-    ['fTitle','fPrice','fDesc','fSku','fImage','fVideo'].forEach(function(id){ document.getElementById(id).value = ''; });
+    ['fTitle','fPrice','fDesc','fSku','fImage','fVideo','fVideos'].forEach(function(id){ document.getElementById(id).value = ''; });
     document.getElementById('fPrice').value = '200.00';
     document.getElementById('fTag').value = '';
     buildCatChecks('men');
@@ -658,6 +664,9 @@ document.getElementById('btnSaveProduct').addEventListener('click', function() {
     var price = document.getElementById('fPrice').value.trim();
     if (!title) { showToast('请填写商品名称', false); return; }
     if (!/^\d+(\.\d+)?$/.test(price)) { showToast('价格请填纯数字，例如 200.00', false); return; }
+    var extraVideos = document.getElementById('fVideos').value.split('\n').map(function(v){ return v.trim(); }).filter(function(v){ return v.length > 0; });
+    var firstVideo = document.getElementById('fVideo').value.trim();
+    if (!firstVideo && extraVideos.length) { firstVideo = extraVideos.shift(); }
     var p = {
         id: editingIndex >= 0 ? String(state.products[editingIndex].id || '') : 'p_' + Date.now(),
         sku: document.getElementById('fSku').value.trim() || title,
@@ -667,7 +676,8 @@ document.getElementById('btnSaveProduct').addEventListener('click', function() {
         category: readCatChecks() || 'men',
         tag: document.getElementById('fTag').value,
         image: document.getElementById('fImage').value.trim(),
-        video: document.getElementById('fVideo').value.trim()
+        video: firstVideo,
+        videos: extraVideos
     };
     if (editingIndex >= 0) state.products[editingIndex] = p;
     else state.products.push(p);
