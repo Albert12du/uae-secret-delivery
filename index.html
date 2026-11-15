@@ -2,19 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Delivery time within UAE is 1~3 days - Secret shipment Secret delivery</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luna Secrets - Your Private Collection | Discreet Delivery UAE</title>
+    <meta name="description" content="Private collection, discreet delivery in 1-3 days across the UAE. Prices in AED. Order directly on WhatsApp.">
 <!--
-    ============================================================
     站点说明（数据驱动版）
-    1. 商品内容与图片：打开 admin.html 后台管理页可视化修改，保存后本页自动生效
-    2. WhatsApp 收单号码 / 下单文案：在 admin.html 的"站点设置"中修改
-    3. 数据来源：优先读 localStorage（后台保存的数据），否则读 data.js 默认数据
-    4. 永久生效：在 admin.html 点"导出 data.js"，用导出文件覆盖服务器上的 data.js
-    5. Facebook Pixel ID：本文件头部 fbq('init', '1291151505987068')，按需替换或删除
-    6. rd 参数转化跟踪脚本：文件底部 "getTrackId" 代码块，上报到 uaelovejune.com/Linh/pixel.gif，可按需修改或删除
-    7. 商品图片/视频：默认直连原站 uaehealthproducts.com，可在后台逐个替换为自己的图床链接
-    ============================================================
+    1. 商品/设置：打开后台 /admin 修改，保存即写云端，所有访客刷新即见
+    2. 数据来源：data.js（Cloudflare Worker 动态返回），localStorage 仅作离线兜底
+    3. Facebook Pixel ID：1291151505987068
+    4. rd 转化跟踪：文件底部 getTrackId 代码块，上报到 uaelovejune.com/Linh/pixel.gif
 -->
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init', '1291151505987068');fbq('track', 'PageView');</script>
@@ -22,1289 +18,712 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap">
     <script src="data.js?v=20261115"></script>
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        -webkit-tap-highlight-color: transparent;
+    :root {
+        --bg: #F3F3F0;
+        --ink: #16150F;
+        --muted: #71706A;
+        --line: #DEDDD7;
+        --green: #12352A;
+        --green-deep: #0E2A21;
+        --white: #FFFFFF;
     }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
-        background: #F7F4EF;
-        padding: 0 10px 100px;
-        position: relative;
-        overflow-x: hidden;
-        color: #1A1816;
-        font-size: 16px;
-    }
-
-    /* ===== Header ===== */
-    .dri-header {
-        text-align: center;
-        padding: 34px 16px 26px;
-        margin: 0 5px 6px;
-        border-bottom: 1px solid #E4DDD3;
-    }
-    .dri-header h1 {
-        font-family: 'Playfair Display', serif;
-        font-size: 1.95rem;
-        font-weight: 500;
-        letter-spacing: 0.2px;
-        color: #1A1816;
-        margin-bottom: 10px;
-        line-height: 1.25;
-    }
-    .dri-header small {
-        font-size: 0.7rem;
-        letter-spacing: 2.4px;
-        text-transform: uppercase;
-        color: #A8895E;
-        font-weight: 500;
-        display: block;
-    }
-
-    /* ===== Search ===== */
-    .dri-search-container {
-        margin: 22px 5px 18px;
-        display: flex;
-        justify-content: center;
-    }
-    .dri-search-box {
-        width: 100%;
-        max-width: 480px;
-        position: relative;
-    }
-    .dri-search-box input {
-        width: 100%;
-        padding: 15px 20px 15px 46px;
-        border-radius: 4px;
-        border: 1px solid #DCD4C9;
-        background: #FFFFFF;
-        font-size: 0.95rem;
-        color: #1A1816;
-        transition: border-color .25s;
-    }
-    .dri-search-box input::placeholder { color: #A69C91; }
-    .dri-search-box input:focus {
-        outline: none;
-        border-color: #1A1816;
-    }
-    .dri-search-box i {
-        position: absolute;
-        left: 17px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #A69C91;
-        font-size: 0.85rem;
-    }
-
-    /* ===== Filters ===== */
-    .dri-controls {
-        display: flex;
-        justify-content: center;
-        margin: 0 5px 26px;
-        gap: 8px;
-        flex-wrap: wrap;
-    }
-    .dri-filter-btn {
-        background: transparent;
-        border: 1px solid #D8CFC4;
-        min-height: 44px;
-        padding: 10px 18px;
-        border-radius: 3px;
-        cursor: pointer;
-        font-weight: 500;
-        font-size: 0.78rem;
-        letter-spacing: 0.5px;
-        color: #6B635B;
-        transition: all .2s;
-    }
-    .dri-filter-btn:hover,
-    .dri-filter-btn.active {
-        background: #1A1816;
-        color: #F7F4EF;
-        border-color: #1A1816;
-    }
-
-    /* ===== Grid ===== */
-    .dri-products-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
-        gap: 18px;
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 0 5px;
-    }
-    .dri-product {
-        background: #FFFFFF;
-        border-radius: 6px;
-        overflow: hidden;
-        border: 1px solid #EAE3D9;
-        box-shadow: 0 1px 2px rgba(26,24,22,0.03);
-        transition: border-color .3s, box-shadow .3s, transform .3s;
-        position: relative;
-        animation: fadeIn 0.5s ease-out;
-    }
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(12px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    .dri-product:hover {
-        border-color: #D2C8BB;
-        box-shadow: 0 6px 24px rgba(26,24,22,0.07);
-        transform: translateY(-2px);
-    }
-
-    /* Tag */
-    .dri-product-tag {
-        position: absolute;
-        top: 12px;
-        left: 12px;
-        background: #1A1816;
-        color: #F7F4EF;
-        padding: 4px 9px;
-        border-radius: 2px;
-        font-size: 0.58rem;
-        font-weight: 600;
-        letter-spacing: 1.8px;
-        z-index: 2;
-        text-transform: uppercase;
-    }
-
-    /* Image */
-    .dri-product-img-container {
-        position: relative;
-        height: 195px;
-        overflow: hidden;
-        background: #F2EDE6;
-    }
-    .dri-product-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        transition: transform 0.7s ease, filter 0.4s ease;
-        filter: saturate(0.92) contrast(1.02);
-    }
-    .dri-product:hover .dri-product-img {
-        transform: scale(1.03);
-        filter: saturate(0.98) contrast(1.02) brightness(1.01);
-    }
-
-    /* Play overlay */
-    .dri-play-overlay {
-        position: absolute;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: transparent;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        z-index: 10;
-        animation: none;
-        box-shadow: none;
-        border-radius: 0;
-        opacity: 1;
-    }
-    .dri-play-overlay:hover { background: rgba(0,0,0,0.04); }
-    .dri-play-icon { display: none !important; }
-    .dri-product-img-container::after {
-        content: "▶";
-        position: absolute;
-        top: 50%; left: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(255,255,255,0.94);
-        color: #1A1816;
-        width: 42px; height: 42px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 12px;
-        z-index: 1;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-        padding-left: 3px;
-        transition: transform .25s, background .25s;
-        pointer-events: none;
-    }
-    .dri-product-img-container:hover::after {
-        transform: translate(-50%, -50%) scale(1.08);
-        background: #fff;
-    }
-
-    /* Info */
-    .dri-product-info { padding: 15px 14px 16px; }
-    .dri-product-title {
-        font-weight: 500;
-        font-size: 0.9rem;
-        color: #1A1816;
-        margin-bottom: 7px;
-        height: 42px;
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        line-height: 1.4;
-    }
-    .dri-product-price {
-        color: #1A1816;
-        font-weight: 600;
-        font-size: 1.15rem;
-        margin: 8px 0;
-        font-family: 'Playfair Display', serif;
-    }
-    .dri-product-price::before {
-        content: "AED ";
-        font-family: 'Inter', sans-serif;
-        font-size: 0.64rem;
-        font-weight: 500;
-        color: #A69C91;
-        letter-spacing: 1px;
-    }
-    .dri-product-desc {
-        color: #6B635B;
-        font-size: 0.76rem;
-        margin: 8px 0;
-        height: 36px;
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        line-height: 1.5;
-    }
-
-    /* WhatsApp button */
-    .dri-whatsapp-btn {
-        background: #1FAA59;
-        color: #fff;
-        border: none;
-        min-height: 44px;
-        padding: 11px 14px;
-        border-radius: 4px;
-        cursor: pointer;
-        width: 100%;
-        margin-top: 10px;
-        font-weight: 500;
-        font-size: 0.8rem;
-        letter-spacing: 0.3px;
-        transition: background .2s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-    }
-    .dri-whatsapp-btn:hover { background: #188C49; }
-
-    /* ===== Bottom nav ===== */
-    .dri-footer-nav {
-        position: fixed;
-        bottom: 0; left: 0;
-        width: 100%;
-        background: #FFFFFF;
-        display: flex;
-        padding: 10px 0;
-        border-top: 1px solid #E4DDD3;
-        z-index: 100;
-    }
-    .dri-nav-btn {
-        flex: 1;
-        text-align: center;
-        color: #8A8279;
-        text-decoration: none;
-        font-size: 0.68rem;
-        letter-spacing: 0.4px;
-        transition: color .2s;
-        position: relative;
-        padding: 4px 0;
-    }
-    .dri-nav-btn:hover { color: #1A1816; }
-    .dri-nav-icon {
-        font-size: 1.3rem;
-        display: block;
-        margin-bottom: 4px;
-    }
-    .dri-cart-badge {
-        position: absolute;
-        top: 0; right: 22px;
-        background: #A8895E;
-        color: #fff;
-        border-radius: 50%;
-        width: 19px; height: 19px;
-        font-size: 0.62rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-    }
-
-    /* ===== Video modal ===== */
-    .dri-video-modal {
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: rgba(12,11,10,0.94);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity .35s, visibility .35s;
-    }
-    .dri-video-modal.active { opacity: 1; visibility: visible; }
-    .dri-video-container {
-        position: relative;
-        width: 90%;
-        max-width: 900px;
-        border-radius: 6px;
-        overflow: hidden;
-        transform: scale(0.96);
-        transition: transform .35s;
-    }
-    .dri-video-modal.active .dri-video-container { transform: scale(1); }
-    .dri-video-player {
-        width: 100%;
-        border-radius: 6px;
-        display: block;
-        background: #000;
-    }
-    .dri-close-modal {
-        position: absolute;
-        top: -50px; right: 0;
-        color: #fff;
-        font-size: 1.6rem;
-        cursor: pointer;
-        background: rgba(255,255,255,0.1);
-        border-radius: 50%;
-        width: 44px; height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background .2s;
-    }
-    .dri-close-modal:hover { background: rgba(255,255,255,0.2); }
-
-    /* ===== Confirm modal ===== */
-    .dri-confirm-modal {
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: rgba(26,24,22,0.6);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity .35s, visibility .35s;
-    }
-    .dri-confirm-modal.active { opacity: 1; visibility: visible; }
-    .dri-confirm-box {
-        background: #FFFFFF;
-        border-radius: 8px;
-        padding: 34px 26px;
-        max-width: 90%;
-        width: 440px;
-        text-align: center;
-        box-shadow: 0 24px 64px rgba(0,0,0,0.18);
-        transform: translateY(20px);
-        transition: transform .35s;
-    }
-    .dri-confirm-modal.active .dri-confirm-box { transform: translateY(0); }
-    .dri-confirm-icon {
-        font-size: 2.8rem;
-        color: #1FAA59;
-        margin-bottom: 18px;
-    }
-    .dri-confirm-title {
-        font-family: 'Playfair Display', serif;
-        font-size: 1.45rem;
-        color: #1A1816;
-        margin-bottom: 12px;
-        font-weight: 600;
-    }
-    .dri-confirm-text {
-        color: #6B635B;
-        margin-bottom: 20px;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+        font-size: 15px;
         line-height: 1.6;
-        font-size: 0.95rem;
+        -webkit-font-smoothing: antialiased;
+        padding-bottom: 90px;
     }
-    .dri-confirm-product {
+    .serif { font-family: 'Playfair Display', Georgia, serif; }
+    .wrap { width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 16px; }
+
+    /* ---------- header ---------- */
+    .topbar {
+        background: var(--white);
+        border-bottom: 1px solid var(--line);
+        position: sticky;
+        top: 0;
+        z-index: 60;
+    }
+    .topbar .inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 58px;
+    }
+    .brand {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: 17px;
+        letter-spacing: 0.14em;
         font-weight: 600;
-        color: #1A1816;
-        margin: 16px 0;
-        font-size: 1.05rem;
-        padding: 14px;
-        background: #F7F4EF;
-        border-radius: 4px;
-        display: inline-block;
+        color: var(--ink);
+        text-decoration: none;
+        text-transform: uppercase;
     }
-    .dri-confirm-btns { display: flex; gap: 10px; margin-top: 14px; }
-    .dri-confirm-btn {
+    .brand span { color: var(--green); }
+    .topnav { display: flex; align-items: center; gap: 18px; font-size: 13px; }
+    .topnav .active { color: var(--green); font-weight: 600; border-bottom: 2px solid var(--green); padding-bottom: 2px; }
+    .topnav a { color: var(--muted); text-decoration: none; }
+    .topnav a.wa { display: inline-flex; align-items: center; gap: 6px; }
+    .topnav a.wa i { color: var(--green); }
+
+    /* ---------- search ---------- */
+    .searchbar { background: var(--white); border-bottom: 1px solid var(--line); }
+    .searchbar .inner { display: flex; align-items: center; gap: 10px; padding: 12px 0; }
+    .searchbar input {
         flex: 1;
-        min-height: 48px;
-        padding: 12px 18px;
-        border-radius: 4px;
-        border: none;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all .2s;
-        font-size: 0.9rem;
-    }
-    .dri-confirm-cancel {
-        background: #F2EDE6;
-        color: #6B635B;
-    }
-    .dri-confirm-cancel:hover { background: #E4DDD3; }
-    .dri-confirm-proceed {
-        background: #1FAA59;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-    }
-    .dri-confirm-proceed:hover { background: #188C49; }
-
-    /* ===== Notification ===== */
-    .dri-cart-notification {
-        position: fixed;
-        top: 20px; right: 20px;
-        background: #1A1816;
-        color: #F7F4EF;
-        padding: 14px 20px;
-        border-radius: 4px;
-        box-shadow: 0 6px 24px rgba(0,0,0,0.15);
-        z-index: 1000;
-        transform: translateX(200%);
-        transition: transform .4s ease-out;
-        display: flex;
-        align-items: center;
-        gap: 9px;
-        font-size: 0.84rem;
-    }
-    .dri-cart-notification.active { transform: translateX(0); }
-
-    /* ===== Load more ===== */
-    .dri-load-more {
-        display: block;
-        margin: 34px auto;
-        min-height: 46px;
-        padding: 12px 38px;
-        background: transparent;
-        color: #1A1816;
-        border: 1px solid #1A1816;
-        border-radius: 3px;
-        font-weight: 500;
-        font-size: 0.8rem;
-        letter-spacing: 0.8px;
-        cursor: pointer;
-        transition: all .2s;
-    }
-    .dri-load-more:hover { background: #1A1816; color: #F7F4EF; }
-
-    /* ===== Responsive ===== */
-    @media (max-width: 768px) {
-        .dri-products-container {
-            grid-template-columns: repeat(auto-fill, minmax(158px, 1fr));
-            gap: 14px;
-        }
-        .dri-product-img-container { height: 175px; }
-        .dri-header h1 { font-size: 1.6rem; }
-    }
-    @media (max-width: 600px) {
-        .dri-products-container {
-            grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
-            gap: 12px;
-        }
-        .dri-product-img-container { height: 160px; }
-        .dri-confirm-box { width: 92%; padding: 28px 20px; }
-        .dri-confirm-btns { flex-direction: column; }
-        .dri-header h1 { font-size: 1.45rem; }
-        .dri-product-title { font-size: 0.86rem; height: 40px; }
-    }
-    @media (max-width: 400px) {
-        .dri-products-container {
-            grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
-            gap: 10px;
-        }
-        .dri-product-img-container { height: 150px; }
-        .dri-header h1 { font-size: 1.3rem; }
-        .dri-video-container { width: 96%; }
-    }
-</style>
-<style>
-    /* ===== NEW: video close pill ===== */
-    .dri-video-close-pill {
-        position: absolute;
-        top: 12px;
-        right: 12px;
-        z-index: 30;
-        min-height: 46px;
-        padding: 0 20px;
+        border: 1px solid var(--line);
         border-radius: 999px;
-        border: 1px solid rgba(255,255,255,0.28);
-        background: rgba(0,0,0,0.58);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        color: #fff;
-        font-family: 'Inter', sans-serif;
-        font-size: 0.86rem;
-        font-weight: 500;
-        letter-spacing: 0.8px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        transition: background .2s, border-color .2s;
-    }
-    .dri-video-close-pill:hover {
-        background: rgba(0,0,0,0.78);
-        border-color: rgba(255,255,255,0.5);
-    }
-
-    /* ===== NEW: quick add button ===== */
-    .dri-quick-add-btn {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        border: 1px solid #D8CFC4;
-        background: rgba(255,255,255,0.94);
-        color: #1A1816;
+        padding: 10px 16px;
         font-size: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        z-index: 20;
-        transition: background .2s, border-color .2s, transform .2s;
+        font-family: inherit;
+        color: var(--ink);
+        background: #FBFBFA;
+        outline: none;
     }
-    .dri-quick-add-btn:hover {
-        background: #1A1816;
-        color: #F7F4EF;
-        border-color: #1A1816;
-        transform: scale(1.06);
-    }
-    .dri-quick-add-btn.added {
-        background: #1FAA59;
-        color: #fff;
-        border-color: #1FAA59;
+    .searchbar input:focus { border-color: var(--green); background: #fff; }
+    .searchbar button {
+        border: 0; background: none; font-family: inherit;
+        font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+        color: var(--ink); cursor: pointer; padding: 8px 4px;
     }
 
-    /* ===== NEW: cart panel ===== */
-    .dri-cart-panel-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(26,24,22,0.45);
-        z-index: 2000;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity .3s, visibility .3s;
+    /* ---------- hero ---------- */
+    .hero {
+        display: grid;
+        grid-template-columns: 1fr;
+        background: var(--green);
+        color: #fff;
+        margin-top: 18px;
+        border-radius: 6px;
+        overflow: hidden;
+        min-height: 300px;
     }
-    .dri-cart-panel-overlay.active { opacity: 1; visibility: visible; }
-    .dri-cart-panel {
-        position: fixed;
-        left: 0; right: 0; bottom: 0;
-        background: #FFFFFF;
-        border-radius: 12px 12px 0 0;
-        max-height: 86vh;
+    @media (min-width: 780px) {
+        .hero { grid-template-columns: 1.05fr 0.95fr; min-height: 340px; }
+    }
+    .hero-copy { padding: 30px 26px 32px; }
+    .eyebrow {
+        font-size: 11px;
+        letter-spacing: 0.2em;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: #9FC2B2;
+    }
+    .hero-copy h1 {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: 34px;
+        line-height: 1.12;
+        font-weight: 500;
+        margin: 12px 0 10px;
+        letter-spacing: -0.01em;
+    }
+    @media (min-width: 780px) { .hero-copy h1 { font-size: 44px; } }
+    .hero-copy p { color: #CFDDD6; font-size: 14px; max-width: 330px; }
+    .hero-cta {
+        display: inline-flex; align-items: center; gap: 10px;
+        margin-top: 22px; padding: 12px 18px;
+        background: #fff; color: var(--green-deep);
+        font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+        text-decoration: none; border-radius: 2px;
+    }
+    .hero-media {
+        position: relative;
+        min-height: 160px;
+        background:
+            radial-gradient(120% 120% at 76% 16%, #235443 0%, #12352A 46%, #0A201A 100%);
         display: flex;
         flex-direction: column;
-        transform: translateY(100%);
-        transition: transform .35s cubic-bezier(.25,.8,.25,1);
-        z-index: 2001;
-        box-shadow: 0 -10px 40px rgba(0,0,0,0.12);
-    }
-    .dri-cart-panel-overlay.active .dri-cart-panel { transform: translateY(0); }
-    .dri-cart-panel-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 20px;
-        border-bottom: 1px solid #EAE3D9;
-    }
-    .dri-cart-panel-header h3 {
-        margin: 0;
-        font-family: 'Playfair Display', serif;
-        font-size: 1.15rem;
-        color: #1A1816;
-        font-weight: 600;
-    }
-    .dri-cart-panel-close {
-        width: 40px; height: 40px;
-        border-radius: 50%;
-        border: none;
-        background: #F2EDE6;
-        color: #6B635B;
-        font-size: 20px;
-        cursor: pointer;
-        display: flex;
         align-items: center;
         justify-content: center;
+        gap: 14px;
+        padding: 26px 18px;
     }
-    .dri-cart-panel-close:hover { background: #E4DDD3; color: #1A1816; }
-    .dri-cart-panel-list {
-        flex: 1;
-        overflow-y: auto;
-        padding: 8px 18px;
-        -webkit-overflow-scrolling: touch;
+    .hero-media .mono {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: 46px;
+        letter-spacing: 0.34em;
+        color: rgba(255,255,255,0.16);
+        text-indent: 0.34em;
     }
-    .dri-cart-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 15px 0;
-        border-bottom: 1px solid #F2EDE6;
-    }
-    .dri-cart-item:last-child { border-bottom: none; }
-    .dri-cart-item-thumb {
-        width: 56px; height: 56px;
-        border-radius: 4px;
-        overflow: hidden;
-        flex-shrink: 0;
-        background: #F2EDE6;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #C9BFB4;
-        font-size: 16px;
-        border: 1px solid #EAE3D9;
-    }
-    .dri-cart-item-thumb img {
-        width: 100%; height: 100%;
-        object-fit: cover;
-        display: block;
-        filter: saturate(0.94) contrast(1.02);
-    }
-    .dri-cart-item-info { flex: 1; min-width: 0; }
-    .dri-cart-item-name {
-        font-weight: 500;
-        font-size: 0.88rem;
-        color: #1A1816;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        margin-bottom: 3px;
-    }
-    .dri-cart-item-id {
-        font-size: 0.7rem;
-        color: #A69C91;
-        letter-spacing: 0.5px;
-        margin-bottom: 2px;
-    }
-    .dri-cart-item-price { font-size: 0.8rem; color: #6B635B; }
-    .dri-cart-qty { display: flex; align-items: center; gap: 5px; }
-    .dri-cart-qty button {
-        width: 30px; height: 30px;
-        border-radius: 50%;
-        border: 1px solid #D8CFC4;
-        background: #fff;
-        color: #1A1816;
-        font-size: 15px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        line-height: 1;
-    }
-    .dri-cart-qty button:hover { background: #F7F4EF; }
-    .dri-cart-qty span {
-        min-width: 22px;
-        text-align: center;
-        font-size: 0.88rem;
-        font-weight: 500;
-    }
-    .dri-cart-item-subtotal {
-        font-family: 'Playfair Display', serif;
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: #1A1816;
-        min-width: 68px;
-        text-align: right;
-    }
-    .dri-cart-item-remove {
-        width: 30px; height: 30px;
-        border: none;
-        background: transparent;
-        color: #C9BFB4;
-        font-size: 13px;
-        cursor: pointer;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-    }
-    .dri-cart-item-remove:hover { color: #C0392B; background: #FBF0EE; }
-    .dri-cart-empty {
-        text-align: center;
-        padding: 52px 20px;
-        color: #A69C91;
-        font-size: 0.9rem;
-    }
-    .dri-cart-empty i {
-        font-size: 2.5rem;
-        color: #DCD4C9;
-        margin-bottom: 14px;
-        display: block;
-    }
-    .dri-cart-panel-footer {
-        padding: 16px 20px 22px;
-        border-top: 1px solid #EAE3D9;
-    }
-    .dri-cart-total-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 14px;
-    }
-    .dri-cart-total-row .label {
-        color: #6B635B;
-        font-weight: 500;
-        font-size: 0.74rem;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-    }
-    .dri-cart-total-row .value {
-        color: #1A1816;
-        font-family: 'Playfair Display', serif;
-        font-weight: 600;
-        font-size: 1.35rem;
-    }
-    .dri-cart-whatsapp-btn {
-        width: 100%;
-        min-height: 50px;
-        padding: 14px;
-        border: none;
-        border-radius: 4px;
-        background: #1FAA59;
-        color: #fff;
-        font-size: 0.9rem;
-        font-weight: 500;
-        letter-spacing: 0.4px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 9px;
-        transition: background .2s;
-    }
-    .dri-cart-whatsapp-btn:hover { background: #188C49; }
-    .dri-cart-whatsapp-btn:disabled { background: #D5D0CA; cursor: not-allowed; }
+    .hero-media .cap { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #9FC2B2; }
 
-    @media (max-width: 420px) {
-        .dri-cart-item-thumb { width: 48px; height: 48px; }
-        .dri-cart-item-subtotal { min-width: 58px; font-size: 0.82rem; }
-        .dri-cart-item-name { font-size: 0.82rem; }
+    /* ---------- trust ---------- */
+    .trust {
+        display: flex; flex-wrap: wrap; gap: 10px 22px;
+        padding: 16px 0 0; font-size: 13px; color: var(--muted);
     }
+    .trust span i { color: var(--green); margin-right: 6px; }
+
+    /* ---------- collection header ---------- */
+    .collection { padding-top: 30px; }
+    .sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+    .sec-head h2 {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: 30px; font-weight: 500; line-height: 1.15; margin-top: 6px;
+    }
+    .sec-head .cartlink {
+        font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+        color: var(--ink); text-decoration: none; border-bottom: 2px solid var(--ink); padding-bottom: 3px; white-space: nowrap;
+    }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 16px 0 0; }
+    .chip {
+        border: 1px solid var(--line); background: var(--white);
+        color: var(--muted); font-family: inherit; font-size: 13px;
+        padding: 9px 15px; border-radius: 3px; cursor: pointer;
+    }
+    .chip.active { background: var(--green-deep); color: #fff; border-color: var(--green-deep); }
+    .sortrow { display: flex; align-items: center; gap: 10px; padding: 14px 0 0; flex-wrap: wrap; }
+    .sortrow label { font-size: 12px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+    .sortrow select {
+        flex: 1; min-width: 160px; max-width: 320px;
+        border: 1px solid var(--line); background: var(--white); color: var(--ink);
+        font-family: inherit; font-size: 14px; padding: 9px 10px; border-radius: 3px;
+    }
+    .sortrow button {
+        border: 1px solid var(--line); background: #ECEBE6; color: var(--ink);
+        font-family: inherit; font-size: 13px; padding: 9px 16px; border-radius: 3px; cursor: pointer;
+    }
+    .count { font-size: 13px; color: var(--muted); padding: 16px 0 14px; }
+
+    /* ---------- grid ---------- */
+    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    @media (min-width: 720px) { .grid { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
+    @media (min-width: 1080px) { .grid { grid-template-columns: repeat(4, 1fr); gap: 18px; } }
+
+    .card { background: var(--white); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; }
+    .card-media { position: relative; aspect-ratio: 1 / 1; background: #EDECE8; overflow: hidden; }
+    .card-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .card-tag {
+        position: absolute; top: 8px; left: 8px;
+        background: var(--green-deep); color: #fff;
+        font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+        padding: 4px 8px; border-radius: 2px;
+    }
+    .play-badge {
+        position: absolute; right: 8px; bottom: 8px;
+        width: 38px; height: 38px; border-radius: 50%;
+        background: rgba(255,255,255,0.94); border: 0; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        color: var(--green-deep); font-size: 15px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.14);
+    }
+    .card-body { padding: 11px 12px 12px; display: flex; flex-direction: column; flex: 1; }
+    .card-code {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: 16px; font-weight: 600; letter-spacing: 0.04em; color: var(--ink);
+    }
+    .card-title { font-size: 12px; color: var(--muted); line-height: 1.45; margin-top: 3px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .card-price { font-size: 15px; font-weight: 600; margin-top: 7px; color: var(--ink); }
+    .card-desc {
+        font-size: 11px; line-height: 1.5; color: var(--muted); margin-top: 5px;
+        display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .card-actions { display: flex; gap: 6px; margin-top: 10px; }
+    .btn-order {
+        flex: 1; border: 0; background: var(--green-deep); color: #fff;
+        font-family: inherit; font-size: 11px; font-weight: 600;
+        letter-spacing: 0.1em; text-transform: uppercase;
+        padding: 10px 6px; border-radius: 2px; cursor: pointer;
+    }
+    .btn-order:active { background: var(--green); }
+    .btn-cart {
+        width: 38px; border: 1px solid var(--line); background: var(--white);
+        color: var(--ink); border-radius: 2px; cursor: pointer; font-size: 13px;
+    }
+    .btn-cart:hover { background: #F1F0EC; }
+
+    .load-more-wrap { display: flex; justify-content: center; padding: 28px 0 4px; }
+    .btn-more {
+        border: 1px solid var(--ink); background: transparent; color: var(--ink);
+        font-family: inherit; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+        padding: 13px 30px; border-radius: 2px; cursor: pointer;
+    }
+    .btn-more:hover { background: var(--ink); color: #fff; }
+    .empty-note { padding: 40px 0; text-align: center; color: var(--muted); }
+
+    /* ---------- footer ---------- */
+    footer { background: var(--green-deep); color: #D7E3DC; margin-top: 46px; padding: 34px 0 26px; }
+    footer .cols { display: grid; grid-template-columns: 1fr; gap: 22px; }
+    @media (min-width: 700px) { footer .cols { grid-template-columns: 1.4fr 1fr 1fr; gap: 30px; } }
+    footer .fbrand { font-family: 'Playfair Display', Georgia, serif; font-size: 22px; letter-spacing: 0.14em; color: #fff; }
+    footer p { font-size: 13px; color: #A9BEB4; margin-top: 10px; max-width: 320px; }
+    footer h4 { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #8FB0A2; margin-bottom: 10px; }
+    footer ul { list-style: none; font-size: 13px; }
+    footer li { margin-bottom: 7px; }
+    footer a { color: #D7E3DC; text-decoration: none; }
+    footer a:hover { color: #fff; }
+    footer .legal { border-top: 1px solid rgba(255,255,255,0.14); margin-top: 26px; padding-top: 16px; font-size: 12px; color: #8FB0A2; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+    /* ---------- floating ---------- */
+    .floaters { position: fixed; right: 14px; bottom: 18px; z-index: 70; display: flex; flex-direction: column; gap: 10px; align-items: center; }
+    .fab {
+        width: 50px; height: 50px; border-radius: 50%; border: 0; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 21px; box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    }
+    .fab-wa { background: #25D366; color: #fff; }
+    .fab-cart { background: var(--green-deep); color: #fff; font-size: 18px; position: relative; }
+    .fab-badge {
+        position: absolute; top: -4px; right: -4px; min-width: 20px; height: 20px;
+        border-radius: 10px; background: #fff; color: var(--green-deep);
+        font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 5px;
+    }
+
+    /* ---------- modals ---------- */
+    .modal { position: fixed; inset: 0; background: rgba(12,20,16,0.72); display: none; align-items: center; justify-content: center; z-index: 90; padding: 18px; }
+    .modal.active { display: flex; }
+    .video-box { position: relative; width: 100%; max-width: 760px; }
+    .video-box video { width: 100%; display: block; border-radius: 4px; background: #000; max-height: 76vh; }
+    .video-close { position: absolute; top: -42px; right: 0; background: rgba(255,255,255,0.14); border: 0; color: #fff; font-family: inherit; font-size: 13px; padding: 7px 14px; border-radius: 3px; cursor: pointer; }
+    .confirm-box { background: #fff; width: 100%; max-width: 420px; border-radius: 6px; padding: 24px 22px; text-align: center; }
+    .confirm-box .ic { width: 52px; height: 52px; border-radius: 50%; background: #ECF6F0; color: #127C4A; display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 14px; }
+    .confirm-box h3 { font-family: 'Playfair Display', Georgia, serif; font-size: 21px; font-weight: 500; margin-bottom: 8px; }
+    .confirm-box p { font-size: 13px; color: var(--muted); }
+    .confirm-name { font-size: 15px; font-weight: 600; color: var(--ink); margin: 10px 0 14px; }
+    .confirm-btns { display: flex; gap: 8px; margin-top: 8px; }
+    .confirm-btns button { flex: 1; font-family: inherit; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; padding: 12px 8px; border-radius: 3px; cursor: pointer; }
+    .c-cancel { border: 1px solid var(--line); background: #fff; color: var(--muted); }
+    .c-go { border: 0; background: var(--green-deep); color: #fff; font-weight: 600; }
+
+    /* cart panel */
+    .cart-panel { position: fixed; top: 0; right: 0; bottom: 0; width: 100%; max-width: 400px; background: #fff; z-index: 95; display: none; flex-direction: column; box-shadow: -8px 0 30px rgba(0,0,0,0.12); }
+    .cart-panel.active { display: flex; }
+    .cart-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px; border-bottom: 1px solid var(--line); }
+    .cart-head h3 { font-family: 'Playfair Display', Georgia, serif; font-size: 19px; font-weight: 500; }
+    .cart-head button { border: 0; background: none; font-size: 22px; color: var(--muted); cursor: pointer; }
+    .cart-list { flex: 1; overflow-y: auto; padding: 8px 18px; }
+    .cart-item { display: flex; gap: 10px; align-items: center; padding: 12px 0; border-bottom: 1px solid #F0EFEA; }
+    .cart-thumb { width: 52px; height: 52px; border-radius: 3px; overflow: hidden; background: #EDECE8; flex: none; }
+    .cart-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .cart-info { flex: 1; min-width: 0; }
+    .cart-info .n { font-size: 13px; font-weight: 600; }
+    .cart-info .p { font-size: 12px; color: var(--muted); }
+    .qty { display: flex; align-items: center; gap: 6px; }
+    .qty button { width: 24px; height: 24px; border: 1px solid var(--line); background: #fff; border-radius: 2px; cursor: pointer; font-size: 12px; }
+    .cart-foot { border-top: 1px solid var(--line); padding: 16px 18px; }
+    .cart-total { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 12px; }
+    .cart-foot button { width: 100%; border: 0; background: var(--green-deep); color: #fff; font-family: inherit; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; padding: 14px; border-radius: 3px; cursor: pointer; }
+    .cart-empty { padding: 40px 0; text-align: center; color: var(--muted); font-size: 13px; }
+    .fade-in { animation: fadeIn 0.28s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 </style>
 </head>
 <body>
-    <div class="dri-header">
-        <h1>Delivery in UAE is 1~3 days</h1>
-        <small>The product is made of medical grade silicone</small>
-    </div>
 
-    <div class="dri-search-container">
-        <div class="dri-search-box">
-            <i class="fas fa-search"></i>
-            <input type="text" id="driSearch" placeholder="Search products...">
+<header class="topbar">
+    <div class="wrap inner">
+        <a class="brand" href="./">LUNA <span>SECRETS</span></a>
+        <nav class="topnav">
+            <span class="active">UAE</span>
+            <a class="wa" href="#" id="headWa"><i class="fab fa-whatsapp"></i> Order</a>
+        </nav>
+    </div>
+</header>
+
+<div class="searchbar">
+    <div class="wrap inner">
+        <input id="q" type="search" placeholder="Search for products..." autocomplete="off">
+        <button id="searchBtn">SEARCH</button>
+    </div>
+</div>
+
+<div class="wrap">
+    <section class="hero">
+        <div class="hero-copy">
+            <div class="eyebrow">THE UAE COLLECTION</div>
+            <h1>Your private<br>collection.</h1>
+            <p>Explore the details. Find something for you.</p>
+            <a class="hero-cta" href="#products">Explore the collection <i class="fas fa-arrow-down" style="font-size:11px"></i></a>
         </div>
+        <div class="hero-media">
+            <div class="mono">LS</div>
+            <div class="cap">Discreet &middot; 1-3 days &middot; UAE</div>
+        </div>
+    </section>
+
+    <div class="trust">
+        <span><i class="fas fa-check"></i>Discreet packaging</span>
+        <span><i class="fas fa-check"></i>Prices in AED</span>
+        <span><i class="fas fa-check"></i>WhatsApp support</span>
+        <span><i class="fas fa-check"></i>Delivery 1-3 days</span>
     </div>
 
-    <div class="dri-controls">
-        <button class="dri-filter-btn active" data-filter="all">All Products</button>
-        <button class="dri-filter-btn" data-filter="men">Men's</button>
-        <button class="dri-filter-btn" data-filter="women">Women's</button>
-        <button class="dri-filter-btn" data-filter="new">New Arrivals</button>
-        <button class="dri-filter-btn" data-filter="sale">Sale</button>
-        <button class="dri-filter-btn" data-filter="best">Best Sellers</button>
-    </div>
+    <section class="collection" id="products">
+        <div class="sec-head">
+            <div>
+                <div class="eyebrow" style="color:var(--muted)">PRODUCTS</div>
+                <h2>The collection</h2>
+            </div>
+            <a class="cartlink" href="#" id="viewCartLink">View cart (<span id="cartTopCount">0</span>)</a>
+        </div>
 
-    <div class="dri-products-container" id="driProductsGrid"></div>
+        <div class="chips" id="chips">
+            <button class="chip active" data-f="all">All products</button>
+            <button class="chip" data-f="sale">On offer</button>
+            <button class="chip" data-f="best">Best sellers</button>
+        </div>
 
-    <script>
-    // ===== 数据驱动渲染：优先读取后台管理页(admin.html)保存的数据(localStorage)，否则使用 data.js =====
-    function getSiteData() {
-        // 服务器数据（data.js 由 Cloudflare Worker 动态返回）优先，其次才是本机缓存
-        if (window.SITE_DATA && window.SITE_DATA.products && window.SITE_DATA.products.length) return window.SITE_DATA;
-        try {
-            var saved = JSON.parse(localStorage.getItem('siteDataV1'));
-            if (saved && saved.products && saved.products.length) return saved;
-        } catch (e) {}
-        return window.SITE_DATA || { settings: {}, products: [] };
-    }
-    function siteSettings() { return getSiteData().settings || {}; }
-    function waNumber() { return String(siteSettings().whatsapp || '').replace(/[^0-9]/g, ''); }
-    function esc(s) {
-        return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
-            return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
-        });
-    }
-    (function renderProducts() {
-        var data = getSiteData();
-        var grid = document.getElementById('driProductsGrid');
-        var out = '';
-        (data.products || []).forEach(function(p) {
-            var tagHtml = p.tag ? '<div class="dri-product-tag">' + esc(p.tag) + '</div>' : '';
-            out += '<div class="dri-product" data-category="' + esc(p.category) + '">' +
-                tagHtml +
-                '<div class="dri-product-img-container">' +
-                    '<img src="' + esc(p.image) + '" class="dri-product-img" alt="' + esc(p.title) + '" loading="lazy">' +
-                    (p.video ? '<div class="dri-play-overlay" data-video="' + esc(p.video) + '">' +
-                        '<div class="dri-play-icon"><i class="fas fa-play-circle"></i></div>' +
-                    '</div>' : '') +
-                '</div>' +
-                '<div class="dri-product-info">' +
-                    '<h3 class="dri-product-title">' + esc(p.title) + '</h3>' +
-                    '<p class="dri-product-price">' + esc(p.price) + '</p>' +
-                    '<p class="dri-product-desc">' + esc(p.desc) + '</p>' +
-                    '<button class="dri-whatsapp-btn" data-id="' + esc(p.id) + '" data-name="' + esc(p.sku) + '" data-price="' + esc(p.price) + '">' +
-                        '<i class="fab fa-whatsapp"></i> WhatsApp Order' +
-                    '</button>' +
-                '</div>' +
-            '</div>';
-        });
-        grid.innerHTML = out;
-    })();
-    </script>
+        <div class="sortrow">
+            <label for="sortSel">Sort by</label>
+            <select id="sortSel">
+                <option value="new">Newest first</option>
+                <option value="asc">Price: low to high</option>
+                <option value="desc">Price: high to low</option>
+            </select>
+            <button id="applySort">Apply</button>
+        </div>
 
-    <button class="dri-load-more">Load More Products</button>
-    
-    <div class="dri-cart-notification">
-        <i class="fas fa-check-circle"></i> Product added to cart!
-    </div>
+        <div class="count" id="countLine"></div>
+        <div class="grid" id="grid"></div>
+        <div class="load-more-wrap" id="moreWrap" hidden>
+            <button class="btn-more" id="loadMore">Load more products</button>
+        </div>
+    </section>
+</div>
 
-    <div class="dri-video-modal">
-        <div class="dri-video-container">
-            <video class="dri-video-player" controls playsinline>
-                <source src="" type="video/mp4">
-                <source src="" type="video/webm">
-                <source src="" type="video/ogg">
-                Your browser does not support the video tag.
-            </video>
-            <button class="dri-video-close-pill" id="driVideoClosePill">✕ Close</button>
-            <div class="dri-close-modal">
-                <i class="fas fa-times"></i>
+<footer>
+    <div class="wrap">
+        <div class="cols">
+            <div>
+                <div class="fbrand">LUNA SECRETS</div>
+                <p>A private collection, delivered discreetly across the UAE. Order directly on WhatsApp, no card details needed.</p>
+                <p style="color:#8FB0A2;font-size:12px;margin-top:14px;">BEFORE YOU ORDER</p>
+                <p style="font-size:12px;">Prices include delivery unless stated. Delivery time within UAE is 1-3 days.</p>
+            </div>
+            <div>
+                <h4>Customer care</h4>
+                <ul>
+                    <li><a href="#" class="fwa">Shopping &amp; delivery help</a></li>
+                    <li><a href="#" class="fwa">Product details</a></li>
+                    <li><a href="#" class="fwa">Order on WhatsApp</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Delivery &amp; aftercare</h4>
+                <ul>
+                    <li><a href="#" class="fwa">Discreet packaging</a></li>
+                    <li><a href="#" class="fwa">Delivery timelines</a></li>
+                    <li><a href="#" class="fwa">Exchange policy</a></li>
+                </ul>
             </div>
         </div>
-    </div>
-    
-    <div class="dri-confirm-modal">
-        <div class="dri-confirm-box">
-            <div class="dri-confirm-icon">
-                <i class="fab fa-whatsapp"></i>
-            </div>
-            <h3 class="dri-confirm-title">Confirm Your Order</h3>
-            <p class="dri-confirm-text">You are about to place an order for:</p>
-            <p class="dri-confirm-product" id="confirmProductName">Product Name</p>
-            <p class="dri-confirm-text">This will open WhatsApp to complete your purchase.</p>
-            <div class="dri-confirm-btns">
-                <button class="dri-confirm-btn dri-confirm-cancel">Cancel</button>
-                <button class="dri-confirm-btn dri-confirm-proceed" id="purchaseBtn">
-                    <i class="fab fa-whatsapp"></i> Proceed to WhatsApp
-                </button>
-            </div>
+        <div class="legal">
+            <span>&copy; <span id="year">2026</span> lunasecret.top</span>
+            <span>Private delivery &middot; Prices in AED</span>
         </div>
     </div>
+</footer>
 
-    <div class="dri-footer-nav">
-        <a href="#" class="dri-nav-btn">
-            <span class="dri-nav-icon"><i class="fas fa-home"></i></span>
-            <span>Home</span>
-        </a>
-        <a href="#" class="dri-nav-btn">
-            <span class="dri-nav-icon"><i class="fas fa-male"></i></span>
-            <span>Men</span>
-        </a>
-        <a href="#" class="dri-nav-btn">
-            <span class="dri-nav-icon"><i class="fas fa-female"></i></span>
-            <span>Women</span>
-        </a>
-        <a href="#" class="dri-nav-btn">
-            <span class="dri-nav-icon"><i class="fas fa-shopping-cart"></i></span>
-            <span>Cart</span>
-            <span class="dri-cart-badge">0</span>
-        </a>
+<div class="floaters">
+    <button class="fab fab-cart" id="fabCart" aria-label="Cart"><i class="fas fa-shopping-bag"></i><span class="fab-badge" id="cartBadge">0</span></button>
+    <button class="fab fab-wa" id="fabWa" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></button>
+</div>
+
+<div class="modal" id="videoModal">
+    <div class="video-box">
+        <button class="video-close" id="videoClose">Close</button>
+        <video id="videoPlayer" controls playsinline preload="none"></video>
     </div>
+</div>
 
-    <div class="dri-cart-panel-overlay" id="driCartOverlay">
-      <div class="dri-cart-panel">
-        <div class="dri-cart-panel-header">
-          <h3>Your Cart</h3>
-          <button class="dri-cart-panel-close" id="driCartClose">&times;</button>
+<div class="modal" id="confirmModal">
+    <div class="confirm-box">
+        <div class="ic"><i class="fab fa-whatsapp"></i></div>
+        <h3 class="serif">Confirm your order</h3>
+        <p>You are about to place an order for:</p>
+        <div class="confirm-name" id="confirmName">Product</div>
+        <p>This opens WhatsApp to finish your order with our team.</p>
+        <div class="confirm-btns">
+            <button class="c-cancel" id="confirmCancel">Cancel</button>
+            <button class="c-go" id="confirmGo"><i class="fab fa-whatsapp"></i> Proceed</button>
         </div>
-        <div class="dri-cart-panel-list" id="driCartList"></div>
-        <div class="dri-cart-panel-footer">
-          <div class="dri-cart-total-row">
-            <span class="label">Total</span>
-            <span class="value" id="driCartTotal">AED 0.00</span>
-          </div>
-          <button class="dri-cart-whatsapp-btn" id="driCartWhatsappBtn">
-            <i class="fab fa-whatsapp"></i> Order via WhatsApp
-          </button>
-        </div>
-      </div>
     </div>
+</div>
 
-    <script>
-        let cart = [];
-        const cartBadge = document.querySelector('.dri-cart-badge');
-        const cartNotification = document.querySelector('.dri-cart-notification');
-        function updateCartIndicator() { cartBadge.textContent = cart.length; }
-        function showNotification() {
-            cartNotification.classList.add('active');
-            setTimeout(() => { cartNotification.classList.remove('active'); }, 2000);
-        }
-        const videoModal = document.querySelector('.dri-video-modal');
-        const videoPlayer = document.querySelector('.dri-video-player');
-        const closeModal = document.querySelector('.dri-close-modal');
-        const playOverlays = document.querySelectorAll('.dri-play-overlay');
-        playOverlays.forEach(overlay => {
-            overlay.addEventListener('click', () => {
-                const videoSrc = overlay.getAttribute('data-video');
-                if (!videoSrc) { return; }
-                while(videoPlayer.firstChild) { videoPlayer.removeChild(videoPlayer.firstChild); }
-                const source = document.createElement('source');
-                source.src = videoSrc;
-                source.type = 'video/mp4';
-                videoPlayer.appendChild(source);
-                videoPlayer.load();
-                videoModal.classList.add('active');
-                videoPlayer.play();
-            });
-        });
-        closeModal.addEventListener('click', () => {
-            videoModal.classList.remove('active');
-            videoPlayer.pause();
-        });
-        videoModal.addEventListener('click', (e) => {
-            if (e.target === videoModal) {
-                videoModal.classList.remove('active');
-                videoPlayer.pause();
-            }
-        });
-        const whatsappButtons = document.querySelectorAll('.dri-whatsapp-btn');
-        const confirmModal = document.querySelector('.dri-confirm-modal');
-        const cancelBtn = document.querySelector('.dri-confirm-cancel');
-        const proceedBtn = document.querySelector('.dri-confirm-proceed');
-        const confirmProductName = document.getElementById('confirmProductName');
-        let currentWhatsappUrl = null;
-        let currentPrice = null;
-        whatsappButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const productTitle = this.getAttribute('data-name');
-                const productPrice = this.getAttribute('data-price');
-                currentPrice = parseFloat(productPrice);
-                cart.push({ id: this.getAttribute('data-id'), title: productTitle, price: productPrice });
-                updateCartIndicator();
-                showNotification();
-                var _tpl = siteSettings().orderMessage || 'Hello ! Please order: {name} (AED {price})';
-                const message = _tpl.replace('{name}', productTitle).replace('{price}', productPrice).replace('{link}', siteSettings().websiteLink || '');
-                currentWhatsappUrl = `https://wa.me/${waNumber()}?text=${encodeURIComponent(message)}`;
-                confirmProductName.textContent = productTitle;
-                confirmModal.classList.add('active');
-            });
-        });
-        proceedBtn.addEventListener('click', () => {
-            if (currentPrice) { fbq('track', 'Purchase', { value: currentPrice, currency: 'AED' }); }
-            else { fbq('track', 'Purchase', { value: 200, currency: 'AED' }); }
-            if (currentWhatsappUrl) { window.open(currentWhatsappUrl, '_blank'); }
-            confirmModal.classList.remove('active');
-            cart = [];
-            updateCartIndicator();
-        });
-        cancelBtn.addEventListener('click', () => { confirmModal.classList.remove('active'); });
-        confirmModal.addEventListener('click', (e) => { if (e.target === confirmModal) confirmModal.classList.remove('active'); });
-        const filterButtons = document.querySelectorAll('.dri-filter-btn');
-        const products = document.querySelectorAll('.dri-product');
-        const searchInput = document.getElementById('driSearch');
-        filterButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                filterButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                const filter = button.getAttribute('data-filter');
-                products.forEach(product => {
-                    if (filter === 'all' || product.getAttribute('data-category').includes(filter)) {
-                        product.style.display = 'block';
-                        product.style.animation = 'fadeIn 0.5s ease-out';
-                    } else { product.style.display = 'none'; }
-                });
-            });
-        });
-        searchInput.addEventListener('input', () => {
-            const searchTerm = searchInput.value.toLowerCase();
-            products.forEach(product => {
-                const title = product.querySelector('.dri-product-title').textContent.toLowerCase();
-                const desc = product.querySelector('.dri-product-desc').textContent.toLowerCase();
-                if (title.includes(searchTerm) || desc.includes(searchTerm)) { product.style.display = 'block'; }
-                else { product.style.display = 'none'; }
-            });
-        });
-        updateCartIndicator();
-    </script>
+<div class="cart-panel" id="cartPanel">
+    <div class="cart-head">
+        <h3>Your cart</h3>
+        <button id="cartClose">&times;</button>
+    </div>
+    <div class="cart-list" id="cartList"></div>
+    <div class="cart-foot">
+        <div class="cart-total"><span>Total</span><span id="cartTotal">AED 0.00</span></div>
+        <button id="cartWa"><i class="fab fa-whatsapp"></i> Order via WhatsApp</button>
+    </div>
+</div>
 
-    <script>
-    (function() {
-        function getTrackId() {
-            const params = new URLSearchParams(window.location.search);
-            const rd = params.get('rd');
-            if (!rd) return null;
-            try {
-                const decoded = atob(decodeURIComponent(rd));
-                const parts = decoded.split('|');
-                return parts[0] || null;
-            } catch(e) { return null; }
-        }
-        const trackId = getTrackId();
-        if (!trackId) return;
-        function logConversion(productInfo) {
-            const img = new Image(1,1);
-            const params = new URLSearchParams({
-                t: trackId,
-                e: 'whatsapp_click',
-                p: productInfo.id || 'unknown',
-                n: encodeURIComponent(productInfo.name || 'product'),
-                ts: Date.now(),
-                r: Math.random().toString(36).substr(2, 6)
-            });
-            img.src = 'https://uaelovejune.com/Linh/pixel.gif?' + params.toString();
-            img.style.display = 'none';
-            document.body.appendChild(img);
-        }
-        document.addEventListener('click', function(e) {
-            let target = e.target;
-            while (target && target !== document) {
-                const isWhatsAppBtn = 
-                    (target.tagName === 'A' && target.href && 
-                     (target.href.includes('whatsapp') || target.href.includes('wa.me'))) ||
-                    (target.classList && 
-                     (target.classList.contains('dri-whatsapp-btn') || 
-                      target.classList.contains('whatsapp') ||
-                      target.textContent.includes('WhatsApp')));
-                if (isWhatsAppBtn) {
-                    const productInfo = {
-                        id: target.getAttribute('data-id') || target.getAttribute('id') || 'pid_' + Date.now(),
-                        name: target.getAttribute('data-name') || target.textContent.trim().substring(0, 30)
-                    };
-                    logConversion(productInfo);
-                    if (target.tagName === 'A' && target.href) {
-                        e.preventDefault();
-                        setTimeout(() => { window.open(target.href, '_blank'); }, 200);
-                    }
-                    break;
-                }
-                target = target.parentElement;
-            }
-        }, true);
-        console.log('A站跟踪已激活');
-    })();
-    </script>
-
-    <script>
-    (function(){
-      var pill = document.getElementById('driVideoClosePill');
-      var modal = document.querySelector('.dri-video-modal');
-      var player = document.querySelector('.dri-video-player');
-      if(!pill || !modal) return;
-      pill.addEventListener('click', function(e){
-        e.stopPropagation();
-        modal.classList.remove('active');
-        if(player) player.pause();
-      });
-    })();
-    </script>
-
-    <script>
-    (function(){
-      var overlay = document.getElementById('driCartOverlay');
-      var listEl = document.getElementById('driCartList');
-      var totalEl = document.getElementById('driCartTotal');
-      var closeBtn = document.getElementById('driCartClose');
-      var waBtn = document.getElementById('driCartWhatsappBtn');
-
-      var imageMap = {};
-      document.querySelectorAll('.dri-product').forEach(function(product){
-        var wa = product.querySelector('.dri-whatsapp-btn');
-        var img = product.querySelector('.dri-product-img');
-        if(wa && img){
-          var k = (wa.getAttribute('data-id')||'') + '|' + (wa.getAttribute('data-name')||'Product');
-          if(!imageMap[k]) imageMap[k] = img.src;
-        }
-      });
-
-      document.querySelectorAll('.dri-product').forEach(function(product){
-        var imgContainer = product.querySelector('.dri-product-img-container');
-        var wa = product.querySelector('.dri-whatsapp-btn');
-        if(!imgContainer || !wa) return;
-        if(getComputedStyle(imgContainer).position === 'static') imgContainer.style.position = 'relative';
-        var addBtn = document.createElement('button');
-        addBtn.className = 'dri-quick-add-btn';
-        addBtn.innerHTML = '<i class="fas fa-cart-plus"></i>';
-        addBtn.title = 'Add to Cart';
-        addBtn.addEventListener('click', function(e){
-          e.preventDefault(); e.stopPropagation();
-          var name = wa.getAttribute('data-name') || 'Product';
-          var price = wa.getAttribute('data-price') || '0';
-          var id = wa.getAttribute('data-id') || '';
-          if(typeof cart !== 'undefined'){
-            cart.push({id:id, title:name, price:price});
-            if(typeof updateCartIndicator === 'function') updateCartIndicator();
-            if(typeof showNotification === 'function') showNotification();
-          }
-          addBtn.classList.add('added');
-          addBtn.innerHTML = '<i class="fas fa-check"></i>';
-          setTimeout(function(){ addBtn.classList.remove('added'); addBtn.innerHTML = '<i class="fas fa-cart-plus"></i>'; }, 800);
-        });
-        imgContainer.appendChild(addBtn);
-      });
-
-      function aggregateCart(){
-        var map = {}, order = [];
-        (typeof cart !== 'undefined' ? cart : []).forEach(function(item){
-          var key = (item.id || '') + '|' + (item.title || '');
-          if(!map[key]){ map[key] = { id:item.id||'', title:item.title||'Product', price:parseFloat(item.price)||0, qty:0 }; order.push(key); }
-          map[key].qty += 1;
-        });
-        return order.map(function(k){ return map[k]; });
-      }
-      function encodeKey(item){ return encodeURIComponent((item.id||'') + '|' + (item.title||'')); }
-      function decodeKey(key){ var s = decodeURIComponent(key), i = s.indexOf('|'); return { id: s.substring(0,i), title: s.substring(i+1) }; }
-      function escapeHtml(str){ return String(str).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
-      function getImage(item){ return imageMap[(item.id||'') + '|' + (item.title||'Product')] || ''; }
-
-      function renderCart(){
-        var items = aggregateCart();
-        listEl.innerHTML = '';
-        if(items.length === 0){
-          listEl.innerHTML = '<div class="dri-cart-empty"><i class="fas fa-shopping-cart"></i>Your cart is empty</div>';
-          totalEl.textContent = 'AED 0.00'; waBtn.disabled = true; return;
-        }
-        waBtn.disabled = false;
-        var total = 0;
-        items.forEach(function(item){
-          var subtotal = item.price * item.qty; total += subtotal;
-          var src = getImage(item);
-          var thumb = src ? '<div class="dri-cart-item-thumb"><img src="'+escapeHtml(src)+'" alt=""></div>' : '<div class="dri-cart-item-thumb"><i class="fas fa-box"></i></div>';
-          var row = document.createElement('div');
-          row.className = 'dri-cart-item';
-          row.innerHTML = thumb +
-            '<div class="dri-cart-item-info"><div class="dri-cart-item-name">'+escapeHtml(item.title)+'</div><div class="dri-cart-item-id">Item #'+escapeHtml(String(item.id))+'</div><div class="dri-cart-item-price">AED '+item.price.toFixed(2)+'</div></div>' +
-            '<div class="dri-cart-qty"><button data-action="minus" data-key="'+encodeKey(item)+'">−</button><span>'+item.qty+'</span><button data-action="plus" data-key="'+encodeKey(item)+'">+</button></div>' +
-            '<div class="dri-cart-item-subtotal">AED '+subtotal.toFixed(2)+'</div>' +
-            '<button class="dri-cart-item-remove" data-action="remove" data-key="'+encodeKey(item)+'"><i class="fas fa-trash-alt"></i></button>';
-          listEl.appendChild(row);
-        });
-        totalEl.textContent = 'AED ' + total.toFixed(2);
-      }
-
-      listEl.addEventListener('click', function(e){
-        var btn = e.target.closest('button[data-action]'); if(!btn) return;
-        var action = btn.getAttribute('data-action'); var target = decodeKey(btn.getAttribute('data-key'));
-        if(typeof cart === 'undefined') return;
-        if(action === 'plus'){ var f = cart.find(function(it){ return (it.id||'')===target.id && (it.title||'')===target.title; }); if(f) cart.push({id:f.id,title:f.title,price:f.price}); }
-        else if(action === 'minus'){ var i = cart.findIndex(function(it){ return (it.id||'')===target.id && (it.title||'')===target.title; }); if(i>-1) cart.splice(i,1); }
-        else if(action === 'remove'){ for(var j=cart.length-1;j>=0;j--){ if((cart[j].id||'')===target.id && (cart[j].title||'')===target.title) cart.splice(j,1); } }
-        if(typeof updateCartIndicator === 'function') updateCartIndicator();
-        renderCart();
-      });
-
-      function openCart(){ renderCart(); overlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
-      function closeCart(){ overlay.classList.remove('active'); document.body.style.overflow = ''; }
-      closeBtn.addEventListener('click', closeCart);
-      overlay.addEventListener('click', function(e){ if(e.target === overlay) closeCart(); });
-
-      var footerNav = document.querySelector('.dri-footer-nav');
-      if(footerNav){
-        var cartNavBtn = footerNav.querySelector('.dri-nav-btn:last-child');
-        if(cartNavBtn) cartNavBtn.addEventListener('click', function(e){ e.preventDefault(); openCart(); });
-      }
-
-      waBtn.addEventListener('click', function(){
-        var items = aggregateCart(); if(items.length === 0) return;
-        var lines = [], total = 0;
-        items.forEach(function(item, idx){
-          var sub = item.price * item.qty; total += sub;
-          lines.push((idx+1) + '. ' + item.title + ' x ' + item.qty + ' - AED ' + sub.toFixed(2));
-        });
-        lines.push('Total: AED ' + total.toFixed(2));
-        var _foot = (typeof siteSettings === 'function' ? (siteSettings().cartFooter || 'Private delivery protect privacy. Website: {link}') : '');
-        lines.push(_foot.replace('{link}', (typeof siteSettings === 'function' ? siteSettings().websiteLink : '') || ''));
-        var _num = (typeof waNumber === 'function' ? waNumber() : '');
-        var url = 'https://wa.me/' + _num + '?text=' + encodeURIComponent(lines.join('\n'));
-        if(typeof fbq === 'function') fbq('track', 'Purchase', { value: total, currency: 'AED' });
-        window.open(url, '_blank');
-        if(typeof cart !== 'undefined') cart.length = 0;
-        if(typeof updateCartIndicator === 'function') updateCartIndicator();
-        closeCart();
-      });
-
-      if(typeof updateCartIndicator === 'function') updateCartIndicator();
-    })();
-    </script>
-<style>
-:root {
-  --lux-bg:      #F7F4EF;
-  --lux-surface: #FFFFFF;
-  --lux-text:    #1C1A16;
-  --lux-muted:   #6B635B;
-  --lux-accent:  #1F5C4A;
-  --lux-line:    #E4DDD3;
+<script>
+// ===== 数据：服务器 data.js（Worker 动态）优先，localStorage 仅兜底 =====
+function getSiteData() {
+    if (window.SITE_DATA && window.SITE_DATA.products && window.SITE_DATA.products.length) return window.SITE_DATA;
+    try {
+        var saved = JSON.parse(localStorage.getItem('siteDataV1'));
+        if (saved && saved.products && saved.products.length) return saved;
+    } catch (e) {}
+    return window.SITE_DATA || { settings: {}, products: [] };
 }
-body { background: var(--lux-bg) !important; color: var(--lux-text) !important; }
-.dri-header h1 { color: var(--lux-text) !important; }
-.dri-header small { color: var(--lux-accent) !important; }
-.dri-product { background: var(--lux-surface) !important; border: 1px solid var(--lux-line) !important; }
-.dri-product-title, .dri-product-price { color: var(--lux-text) !important; }
-.dri-product-desc { color: var(--lux-muted) !important; }
-.dri-filter-btn { border-color: var(--lux-line) !important; color: var(--lux-muted) !important; }
-.dri-filter-btn.active, .dri-filter-btn:hover { background: var(--lux-text) !important; color: #fff !important; border-color: var(--lux-text) !important; }
-.dri-search-box input { background: #fff !important; border-color: var(--lux-line) !important; color: var(--lux-text) !important; }
-.dri-footer-nav { background: #fff !important; border-top-color: var(--lux-line) !important; }
-.dri-nav-btn { color: var(--lux-muted) !important; }
-.dri-cart-badge { background: var(--lux-accent) !important; color: #fff !important; }
-.dri-quick-add-btn { border-color: var(--lux-line) !important; color: var(--lux-text) !important; background: #fff !important; }
-.dri-quick-add-btn:hover { background: var(--lux-text) !important; color: #fff !important; border-color: var(--lux-text) !important; }
-.dri-confirm-box, .dri-cart-panel { background: #fff !important; }
-.dri-confirm-title, .dri-cart-panel-header h3 { color: var(--lux-text) !important; }
-.dri-confirm-text { color: var(--lux-muted) !important; }
-.dri-cart-item-name, .dri-cart-item-subtotal, .dri-cart-total-row .value { color: var(--lux-text) !important; }
-.dri-cart-item-id, .dri-cart-item-price, .dri-cart-total-row .label { color: var(--lux-muted) !important; }
-.dri-load-more { color: var(--lux-text) !important; border-color: var(--lux-text) !important; }
-.dri-load-more:hover { background: var(--lux-text) !important; color: #fff !important; }
-</style>
-<style>
-body { background: linear-gradient(160deg, #FDFBF7 0%, #F5F0E8 60%, #EFE8DD 100%) !important; color: #1C1A16 !important; }
-.dri-header h1 { color: #1C1A16 !important; }
-.dri-header small { color: #A8895E !important; }
-.dri-product { background: #FFFFFF !important; border: 1px solid #EAE3D9 !important; box-shadow: 0 4px 20px rgba(0,0,0,0.03) !important; }
-.dri-product-title, .dri-product-price { color: #1C1A16 !important; }
-.dri-product-desc { color: #6B635B !important; }
-.dri-filter-btn { border-color: #E0D8CC !important; color: #6B635B !important; background: rgba(255,255,255,0.5) !important; }
-.dri-filter-btn.active, .dri-filter-btn:hover { background: #1C1A16 !important; color: #F5F0E8 !important; border-color: #1C1A16 !important; }
-.dri-search-box input { background: #fff !important; border-color: #E8E0D4 !important; color: #1C1A16 !important; }
-.dri-footer-nav { background: #fff !important; border-top-color: #E8E0D4 !important; }
-.dri-nav-btn { color: #6B635B !important; }
-.dri-cart-badge { background: #A8895E !important; color: #fff !important; }
-.dri-quick-add-btn { border-color: #E0D8CC !important; color: #1C1A16 !important; background: #fff !important; }
-.dri-quick-add-btn:hover { background: #1C1A16 !important; color: #F5F0E8 !important; border-color: #1C1A16 !important; }
-.dri-confirm-box, .dri-cart-panel { background: #fff !important; }
-.dri-confirm-title, .dri-cart-panel-header h3 { color: #1C1A16 !important; }
-.dri-confirm-text { color: #6B635B !important; }
-.dri-cart-item-name, .dri-cart-item-subtotal, .dri-cart-total-row .value { color: #1C1A16 !important; }
-.dri-cart-item-id, .dri-cart-item-price, .dri-cart-total-row .label { color: #6B635B !important; }
-.dri-load-more { color: #1C1A16 !important; border-color: #1C1A16 !important; }
-.dri-load-more:hover { background: #1C1A16 !important; color: #F5F0E8 !important; }
-</style>
+function siteSettings() { return getSiteData().settings || {}; }
+function waNumber() { return String(siteSettings().whatsapp || '').replace(/[^0-9]/g, ''); }
+function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+}
+function priceNum(p) { var n = parseFloat(String(p == null ? '' : p).replace(/[^0-9.]/g, '')); return isNaN(n) ? 0 : n; }
+function priceText(p) { var n = priceNum(p); return n ? (n % 1 === 0 ? n.toFixed(0) : n.toFixed(2)) : String(p || ''); }
+function skuCode(sku) { var m = String(sku || '').match(/^[A-Za-z0-9]+/); return m ? m[0].toUpperCase() : String(sku || 'ITEM'); }
+
+var ALL = (getSiteData().products || []).slice();
+var state = { filter: 'all', sort: 'new', q: '', shown: 24 };
+var cart = [];
+
+// hero 图已改为纯色品牌区，无需加载商品图
+document.getElementById('year').textContent = new Date().getFullYear();
+
+function visibleList() {
+    var q = state.q.trim().toLowerCase();
+    var list = ALL.filter(function (p) {
+        var cat = String(p.category || '').toLowerCase();
+        var tag = String(p.tag || '').toLowerCase();
+        if (state.filter === 'sale' && !(cat.indexOf('sale') > -1 || tag.indexOf('sale') > -1)) return false;
+        if (state.filter === 'best' && !(cat.indexOf('best') > -1 || tag.indexOf('best') > -1)) return false;
+        if (!q) return true;
+        var hay = (String(p.sku || '') + ' ' + String(p.title || '') + ' ' + String(p.desc || '')).toLowerCase();
+        return hay.indexOf(q) > -1;
+    });
+    if (state.sort === 'asc') list.sort(function (a, b) { return priceNum(a.price) - priceNum(b.price); });
+    else if (state.sort === 'desc') list.sort(function (a, b) { return priceNum(b.price) - priceNum(a.price); });
+    return list;
+}
+
+function cardHtml(p) {
+    var tag = p.tag ? '<div class="card-tag">' + esc(p.tag) + '</div>' : '';
+    var play = p.video ? '<button class="play-badge" data-video="' + esc(p.video) + '" aria-label="Play video"><i class="fas fa-play"></i></button>' : '';
+    return '<article class="card fade-in">' +
+        '<div class="card-media">' + tag +
+            '<img src="' + esc(p.image) + '" alt="' + esc(p.title) + '" loading="lazy">' + play +
+        '</div>' +
+        '<div class="card-body">' +
+            '<div class="card-code">' + esc(skuCode(p.sku)) + '</div>' +
+            '<div class="card-title">' + esc(p.title) + '</div>' +
+            '<div class="card-price">AED ' + esc(priceText(p.price)) + '</div>' +
+            (p.desc ? '<div class="card-desc">' + esc(p.desc) + '</div>' : '') +
+            '<div class="card-actions">' +
+                '<button class="btn-order" data-order data-id="' + esc(p.id) + '" data-name="' + esc(p.sku) + '" data-price="' + esc(p.price) + '">Order on WhatsApp</button>' +
+                '<button class="btn-cart" data-add data-id="' + esc(p.id) + '" data-name="' + esc(p.sku) + '" data-price="' + esc(p.price) + '" aria-label="Add to cart"><i class="fas fa-plus"></i></button>' +
+            '</div>' +
+        '</div>' +
+    '</article>';
+}
+
+function render() {
+    var list = visibleList();
+    var slice = list.slice(0, state.shown);
+    var grid = document.getElementById('grid');
+    grid.innerHTML = slice.length ? slice.map(cardHtml).join('') : '<div class="empty-note" style="grid-column:1/-1;">No products match your search.</div>';
+    document.getElementById('countLine').textContent = list.length + (list.length === 1 ? ' product' : ' products');
+    document.getElementById('moreWrap').hidden = list.length <= state.shown;
+}
+
+// 交互（事件委托，重绘后依然有效）
+document.getElementById('grid').addEventListener('click', function (e) {
+    var play = e.target.closest('.play-badge');
+    if (play) { openVideo(play.getAttribute('data-video')); return; }
+    var order = e.target.closest('[data-order]');
+    if (order) { askOrder(order.getAttribute('data-id'), order.getAttribute('data-name'), order.getAttribute('data-price')); return; }
+    var add = e.target.closest('[data-add]');
+    if (add) { addToCart(add.getAttribute('data-id'), add.getAttribute('data-name'), add.getAttribute('data-price')); }
+});
+
+document.getElementById('chips').addEventListener('click', function (e) {
+    var chip = e.target.closest('.chip'); if (!chip) return;
+    Array.prototype.forEach.call(document.querySelectorAll('.chip'), function (c) { c.classList.remove('active'); });
+    chip.classList.add('active');
+    state.filter = chip.getAttribute('data-f');
+    state.shown = 24;
+    render();
+});
+document.getElementById('applySort').addEventListener('click', function () {
+    state.sort = document.getElementById('sortSel').value;
+    state.shown = 24;
+    render();
+});
+document.getElementById('sortSel').addEventListener('change', function () {
+    state.sort = this.value; state.shown = 24; render();
+});
+document.getElementById('searchBtn').addEventListener('click', function () {
+    state.q = document.getElementById('q').value; state.shown = 24; render();
+});
+document.getElementById('q').addEventListener('input', function () {
+    state.q = this.value; state.shown = 24; render();
+});
+document.getElementById('loadMore').addEventListener('click', function () {
+    state.shown += 24; render();
+});
+
+// ---- 视频 ----
+var videoModal = document.getElementById('videoModal');
+var videoPlayer = document.getElementById('videoPlayer');
+function openVideo(src) {
+    if (!src) return;
+    videoPlayer.innerHTML = '';
+    var source = document.createElement('source');
+    source.src = src; source.type = 'video/mp4';
+    videoPlayer.appendChild(source);
+    videoPlayer.load();
+    videoModal.classList.add('active');
+    videoPlayer.play().catch(function () {});
+}
+function closeVideo() {
+    videoModal.classList.remove('active');
+    videoPlayer.pause();
+}
+document.getElementById('videoClose').addEventListener('click', closeVideo);
+videoModal.addEventListener('click', function (e) { if (e.target === videoModal) closeVideo(); });
+
+// ---- 下单 ----
+var confirmModal = document.getElementById('confirmModal');
+var confirmName = document.getElementById('confirmName');
+var pendingUrl = null, pendingPrice = null;
+
+function orderMessage(name, price) {
+    var tpl = siteSettings().orderMessage || 'Hello ! Please order: {name} (AED {price})';
+    return tpl.replace('{name}', name).replace('{price}', price).replace('{link}', siteSettings().websiteLink || '');
+}
+function askOrder(id, name, price) {
+    pendingPrice = priceNum(price);
+    pendingUrl = 'https://wa.me/' + waNumber() + '?text=' + encodeURIComponent(orderMessage(name, priceText(price)));
+    confirmName.textContent = skuCode(name);
+    confirmModal.classList.add('active');
+}
+document.getElementById('confirmCancel').addEventListener('click', function () { confirmModal.classList.remove('active'); });
+confirmModal.addEventListener('click', function (e) { if (e.target === confirmModal) confirmModal.classList.remove('active'); });
+document.getElementById('confirmGo').addEventListener('click', function () {
+    if (typeof fbq === 'function') fbq('track', 'Purchase', { value: pendingPrice || 200, currency: 'AED' });
+    if (pendingUrl) window.open(pendingUrl, '_blank');
+    confirmModal.classList.remove('active');
+});
+
+// 顶部 / 浮动 WhatsApp：直接聊
+function chatUrl() {
+    return 'https://wa.me/' + waNumber() + '?text=' + encodeURIComponent('Hello, I would like to know more about your products.');
+}
+['headWa', 'fabWa'].forEach(function (id) {
+    document.getElementById(id).addEventListener('click', function (e) { e.preventDefault(); window.open(chatUrl(), '_blank'); });
+});
+Array.prototype.forEach.call(document.querySelectorAll('.fwa'), function (a) {
+    a.addEventListener('click', function (e) { e.preventDefault(); window.open(chatUrl(), '_blank'); });
+});
+
+// ---- 购物车 ----
+var cartPanel = document.getElementById('cartPanel');
+
+function findIdx(id, name) {
+    for (var i = 0; i < cart.length; i++) {
+        if (String(cart[i].id) === String(id) && String(cart[i].name) === String(name)) return i;
+    }
+    return -1;
+}
+function addToCart(id, name, price) {
+    var idx = findIdx(id, name);
+    if (idx > -1) cart[idx].qty += 1;
+    else cart.push({ id: id, name: name, price: priceNum(price), img: imgOf(id, name), qty: 1 });
+    syncCart();
+}
+function imgOf(id, name) {
+    for (var i = 0; i < ALL.length; i++) {
+        if (String(ALL[i].id) === String(id) && String(ALL[i].sku) === String(name)) return ALL[i].image || '';
+    }
+    return '';
+}
+function syncCart() {
+    var count = cart.reduce(function (s, i) { return s + i.qty; }, 0);
+    document.getElementById('cartBadge').textContent = count;
+    document.getElementById('cartTopCount').textContent = count;
+    renderCart();
+}
+function renderCart() {
+    var list = document.getElementById('cartList');
+    if (!cart.length) {
+        list.innerHTML = '<div class="cart-empty"><i class="fas fa-shopping-bag" style="display:block;font-size:22px;margin-bottom:10px;color:#C9C8C2"></i>Your cart is empty</div>';
+        document.getElementById('cartTotal').textContent = 'AED 0.00';
+        return;
+    }
+    var total = 0;
+    list.innerHTML = cart.map(function (it, i) {
+        total += it.price * it.qty;
+        return '<div class="cart-item">' +
+            '<div class="cart-thumb">' + (it.img ? '<img src="' + esc(it.img) + '" alt="">' : '') + '</div>' +
+            '<div class="cart-info"><div class="n">' + esc(it.name) + '</div><div class="p">AED ' + it.price.toFixed(2) + '</div></div>' +
+            '<div class="qty"><button data-q="-" data-i="' + i + '">-</button><span>' + it.qty + '</span><button data-q="+" data-i="' + i + '">+</button></div>' +
+        '</div>';
+    }).join('');
+    document.getElementById('cartTotal').textContent = 'AED ' + total.toFixed(2);
+}
+document.getElementById('cartList').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-q]'); if (!b) return;
+    var i = parseInt(b.getAttribute('data-i'), 10);
+    if (b.getAttribute('data-q') === '+') cart[i].qty += 1;
+    else { cart[i].qty -= 1; if (cart[i].qty <= 0) cart.splice(i, 1); }
+    syncCart();
+});
+function openCart() { renderCart(); cartPanel.classList.add('active'); }
+function closeCart() { cartPanel.classList.remove('active'); }
+document.getElementById('fabCart').addEventListener('click', openCart);
+document.getElementById('viewCartLink').addEventListener('click', function (e) { e.preventDefault(); openCart(); });
+document.getElementById('cartClose').addEventListener('click', closeCart);
+document.getElementById('cartWa').addEventListener('click', function () {
+    if (!cart.length) return;
+    var lines = [], total = 0;
+    cart.forEach(function (it, i) { var sub = it.price * it.qty; total += sub; lines.push((i + 1) + '. ' + it.name + ' x ' + it.qty + ' - AED ' + sub.toFixed(2)); });
+    lines.push('Total: AED ' + total.toFixed(2));
+    var foot = siteSettings().cartFooter || 'Private delivery protect privacy. Website: {link}';
+    lines.push(foot.replace('{link}', siteSettings().websiteLink || ''));
+    if (typeof fbq === 'function') fbq('track', 'Purchase', { value: total, currency: 'AED' });
+    window.open('https://wa.me/' + waNumber() + '?text=' + encodeURIComponent(lines.join('\n')), '_blank');
+    cart = []; syncCart(); closeCart();
+});
+
+render();
+syncCart();
+</script>
+
+<script>
+// rd 参数转化跟踪
+(function () {
+    function getTrackId() {
+        var params = new URLSearchParams(window.location.search);
+        var rd = params.get('rd');
+        if (!rd) return null;
+        try { return atob(decodeURIComponent(rd)).split('|')[0] || null; } catch (e) { return null; }
+    }
+    var trackId = getTrackId();
+    if (!trackId) return;
+    function logConversion(info) {
+        var img = new Image(1, 1);
+        var params = new URLSearchParams({ t: trackId, e: 'whatsapp_click', p: info.id || 'unknown', n: encodeURIComponent(info.name || 'product'), ts: Date.now(), r: Math.random().toString(36).substr(2, 6) });
+        img.src = 'https://uaelovejune.com/Linh/pixel.gif?' + params.toString();
+        img.style.display = 'none';
+        document.body.appendChild(img);
+    }
+    document.addEventListener('click', function (e) {
+        var target = e.target;
+        while (target && target !== document) {
+            var isWa = (target.tagName === 'A' && target.href && (target.href.indexOf('whatsapp') > -1 || target.href.indexOf('wa.me') > -1)) ||
+                (target.classList && (target.classList.contains('btn-order') || target.classList.contains('c-go') || target.classList.contains('fab-wa') || (target.textContent || '').indexOf('WhatsApp') > -1));
+            if (isWa) { logConversion({ id: target.getAttribute('data-id'), name: target.getAttribute('data-name') || (target.textContent || '').trim().substring(0, 30) }); break; }
+            target = target.parentElement;
+        }
+    }, true);
+})();
+</script>
 </body>
 </html>
