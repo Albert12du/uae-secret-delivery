@@ -526,12 +526,11 @@ function cardHtml(p) {
         '</div>' +
         '<div class="card-body">' +
             '<div class="card-name">' + esc(p.title) + '</div>' +
-            '<div class="card-sku">' + esc(skuCode(p.sku)) + '</div>' +
             '<div class="card-price">AED ' + esc(priceText(p.price)) + '</div>' +
             (p.desc ? '<div class="card-desc">' + esc(p.desc) + '</div>' : '') +
             '<div class="card-actions">' +
-                '<button class="btn-order" data-order data-id="' + esc(p.id) + '" data-name="' + esc(p.sku) + '" data-price="' + esc(p.price) + '">Order on WhatsApp</button>' +
-                '<button class="btn-cart" data-add data-id="' + esc(p.id) + '" data-name="' + esc(p.sku) + '" data-price="' + esc(p.price) + '" aria-label="Add to cart"><i class="fas fa-plus"></i></button>' +
+                '<button class="btn-order" data-order data-id="' + esc(p.id) + '" data-name="' + esc(p.title) + '" data-price="' + esc(p.price) + '">Order on WhatsApp</button>' +
+                '<button class="btn-cart" data-add data-id="' + esc(p.id) + '" data-name="' + esc(p.title) + '" data-price="' + esc(p.price) + '" aria-label="Add to cart"><i class="fas fa-plus"></i></button>' +
             '</div>' +
         '</div>' +
     '</article>';
@@ -614,7 +613,7 @@ function orderMessage(name, price) {
 function askOrder(id, name, price) {
     pendingPrice = priceNum(price);
     pendingUrl = 'https://wa.me/' + waNumber() + '?text=' + encodeURIComponent(orderMessage(name, priceText(price)));
-    confirmName.textContent = skuCode(name);
+    confirmName.textContent = name;
     confirmModal.classList.add('active');
 }
 document.getElementById('confirmCancel').addEventListener('click', function () { confirmModal.classList.remove('active'); });
@@ -648,12 +647,12 @@ function findIdx(id, name) {
 function addToCart(id, name, price) {
     var idx = findIdx(id, name);
     if (idx > -1) cart[idx].qty += 1;
-    else cart.push({ id: id, name: name, price: priceNum(price), img: imgOf(id, name), qty: 1 });
+    else cart.push({ id: id, name: name, price: priceNum(price), img: imgOf(id), qty: 1 });
     syncCart();
 }
-function imgOf(id, name) {
+function imgOf(id) {
     for (var i = 0; i < ALL.length; i++) {
-        if (String(ALL[i].id) === String(id) && String(ALL[i].sku) === String(name)) return ALL[i].image || '';
+        if (String(ALL[i].id) === String(id)) return ALL[i].image || '';
     }
     return '';
 }
