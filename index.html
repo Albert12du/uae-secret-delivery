@@ -218,7 +218,9 @@
     .card-body { padding: 11px 12px 12px; display: flex; flex-direction: column; flex: 1; }
     .card-name {
         font-family: 'Playfair Display', Georgia, serif;
-        font-size: 17px; font-weight: 500; line-height: 1.28; letter-spacing: 0.005em; color: var(--ink);
+        font-size: 18px; font-weight: 600; line-height: 1.25; letter-spacing: 0.03em; color: var(--ink);
+        font-variant-numeric: lining-nums;
+        font-feature-settings: "lnum" 1;
         display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     }
     .card-sku {
@@ -232,10 +234,11 @@
     }
     .card-title { display: none; }
     .card-price {
-        font-family: 'Playfair Display', Georgia, serif;
-        font-size: 16px; font-weight: 500; margin-top: 7px; color: var(--ink);
-        font-variant-numeric: normal; letter-spacing: 0.01em;
+        font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+        font-size: 15px; font-weight: 600; margin-top: 7px; color: var(--ink);
+        font-variant-numeric: tabular-nums; letter-spacing: 0.01em;
     }
+    .card-price .cur { font-size: 11px; font-weight: 500; color: var(--muted); letter-spacing: 0.08em; margin-right: 5px; }
     .card-desc {
         font-size: 11px; line-height: 1.5; color: var(--muted); margin-top: 5px;
         display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
@@ -531,7 +534,7 @@ function cardHtml(p) {
         '<div class="card-body">' +
             '<div class="card-name">' + esc(skuCode(p.sku)) + '</div>' +
             '<div class="card-sub">' + esc(p.title) + '</div>' +
-            '<div class="card-price">AED ' + esc(priceText(p.price)) + '</div>' +
+            '<div class="card-price"><span class="cur">AED</span>' + esc(priceText(p.price)) + '</div>' +
             (p.desc ? '<div class="card-desc">' + esc(p.desc) + '</div>' : '') +
             '<div class="card-actions">' +
                 '<button class="btn-order" data-order data-id="' + esc(p.id) + '" data-name="' + esc(skuCode(p.sku)) + '" data-price="' + esc(p.price) + '">Order on WhatsApp</button>' +
